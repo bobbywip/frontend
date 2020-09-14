@@ -37,8 +37,6 @@ const useGetUserDaoActivityData = address => {
         if(address === "")
             return
 
-        address = "0x3FA38A6A32827C0a7e9a30eE2bbbE5B6c83b8772"
-
         fetch(KNC_CONTENT.DAO_API_USER_ACTIVITY_URL.replace("{address}", address))
             .then(res => res.json())
             .then(res => {
