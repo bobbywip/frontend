@@ -9,6 +9,7 @@ import WithdrawIcon from "../../../../static/activity/withdraw.png"
 import DepositIcon from "../../../../static/activity/deposit.png"
 
 Timeline.propTypes = {
+    showAll: PropTypes.bool,
     data: PropTypes.arrayOf(
         PropTypes.shape({
             timestamp: PropTypes.number.isRequired,
@@ -27,8 +28,22 @@ Timeline.propTypes = {
     )
 }
 
+Timeline.defaultProps = {
+    showAll: false,
+    data: []
+}
+
 const Container = styled.div`
     display: block;
+
+    ${props => props.showAll === false
+        &&
+        `
+            max-height: 291px;
+            height: 291px;
+            overflow-y: hidden;
+        `
+    }
 `
 
 const Row = styled.div`
@@ -56,16 +71,22 @@ const DateTimestamp = styled.span`
 `
 
 export default function Timeline(props) {
-    const { data } = props
+    const { showAll, data } = props
 
     if(data === null) {
         return <></>
     }
 
+    let records = data
+
+    if(showAll === false) {
+        records = data.slice(0, 6)
+    }
+
     return (
         <Container>
             {
-                data.map((activity) => {
+                records.map((activity) => {
 
                     let iconSrc
                     let type

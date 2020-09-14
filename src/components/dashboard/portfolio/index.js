@@ -11,6 +11,7 @@ const Container = styled.div`
     padding: 2em;
     margin: 1em 1em 1em 0;
     flex: 0 1 460px;
+    max-height: 228px;
 
     @media (max-width: 650px) {
         flex: 1 1 100%;

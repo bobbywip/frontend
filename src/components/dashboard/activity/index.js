@@ -18,7 +18,12 @@ const Container = styled.div`
         flex: 1 1 100%;
     }
 `
+const HeaderContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`
 const Title = styled.div`
+    flex: 0 1 55%;
     font-family: Helvetica Neue;
     font-style: normal;
     font-weight: 300;
@@ -27,6 +32,16 @@ const Title = styled.div`
     letter-spacing: 0.1px;
     color: #000000;
     margin: 0 0 3.5rem 0;
+`
+const ViewAllContainer = styled.div`
+    flex: 0 1 45%;
+    text-align: right;
+    font-size: 14px;
+    text-decoration: underline;
+
+    &:hover {
+        cursor: pointer;
+    }
 `
 const NoActivityContainer = styled.div`
     display: grid;
@@ -55,20 +70,33 @@ const useGetUserDaoActivityData = address => {
 }
 
 export default function Activity() {
+    const [showAllActivity, setShowAllActivity] = useState(false)
     const context = useContext(AppStateContext);
     const { records, loading } = useGetUserDaoActivityData(context.address)
 
+    const isData = records === null || records.data === null ? false : true
+
     return (
         <Container>
-            <Title>Activity Timeline</Title>
+            <HeaderContainer>
+                <Title>Activity Timeline</Title>
+                {
+                    isData
+                    &&
+                    <ViewAllContainer onClick={() => setShowAllActivity(!showAllActivity)}>
+                        { showAllActivity ? 'Show Less' : 'View All' }
+                    </ViewAllContainer>
+                }
+            </HeaderContainer>
             {
-                loading || records === null || records.data === null
+                loading || isData === false
                     ?
                         <NoActivityContainer>
                             There is no activity to show yet.
                         </NoActivityContainer>
                     :
                         <Timeline
+                            showAll={showAllActivity}
                             data={records.data}
                         />
             }
