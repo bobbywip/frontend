@@ -13,6 +13,7 @@ const Container = styled.div`
     padding: 2em;
     margin: 1em 1em 1em 0;
     flex: 1 1 500px;
+    height: auto;
 
     @media (max-width: 650px) {
         flex: 1 1 100%;
@@ -31,7 +32,6 @@ const Title = styled.div`
     line-height: 16px;
     letter-spacing: 0.1px;
     color: #000000;
-    margin: 0 0 3.5rem 0;
 `
 const ViewAllContainer = styled.div`
     flex: 0 1 45%;
@@ -49,6 +49,13 @@ const NoActivityContainer = styled.div`
     color: #BDBDBD;
     font-size: 14px;
     margin: 2em 0;
+    height: 10rem;
+    padding-top: 3rem;
+
+    background: repeating-linear-gradient(
+        white, white 35px,
+        #efefef 36px, #efefef 37px
+    );
 `
 
 const useGetUserDaoActivityData = address => {
