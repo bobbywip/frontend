@@ -58,6 +58,10 @@ const DateTimestamp = styled.span`
 export default function Timeline(props) {
     const { data } = props
 
+    if(data === null) {
+        return <></>
+    }
+
     return (
         <Container>
             {

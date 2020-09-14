@@ -36,7 +36,6 @@ const BodyContainer = styled.div`
 `
 const NoFeesContainer = styled.div`
     display: grid;
-    grid-template-rows: 150px 40px;
     place-items: center;
     overflow: auto;
     width: 100%;
@@ -46,7 +45,6 @@ const NoFeesContainer = styled.div`
     background-position: left;
 `
 const TextContainer = styled.div`
-    display: block;
     font-family: Helvetica Neue;
     font-style: normal;
     font-weight: normal;

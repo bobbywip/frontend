@@ -28,6 +28,13 @@ const Title = styled.div`
     color: #000000;
     margin: 0 0 3.5rem 0;
 `
+const NoActivityContainer = styled.div`
+    display: grid;
+    place-items: center;
+    color: #BDBDBD;
+    font-size: 14px;
+    margin: 2em 0;
+`
 
 const useGetUserDaoActivityData = address => {
     const [state, setState] = useState({records: null, loading: true}) 
@@ -55,9 +62,11 @@ export default function Activity() {
         <Container>
             <Title>Activity Timeline</Title>
             {
-                loading || records === null
+                loading || records === null || records.data === null
                     ?
-                        `There is no activity to show yet.`
+                        <NoActivityContainer>
+                            There is no activity to show yet.
+                        </NoActivityContainer>
                     :
                         <Timeline
                             data={records.data}
