@@ -78,10 +78,7 @@ export default function Footer(props) {
                 }
             </Socials>
             <Links>
-                <FooterLink to="/privacy">Privacy Policy</FooterLink>
-                <FooterLink to="/terms">Terms of Service</FooterLink>
-                <FooterLink to="/legal">Legal</FooterLink>
-                <FooterLink to="/sitemap">Site Map</FooterLink>
+                {' '}
             </Links>
             <Copyright>
                 &copy; Kyber Community Pool. All rights reserved.
