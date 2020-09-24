@@ -1,5 +1,4 @@
 import React  from "react"
-import { Link } from "react-router-dom"
 import styled from "styled-components"
 import PropTypes from 'prop-types';
 
@@ -39,15 +38,6 @@ const Image = styled.img`
 `
 const Links = styled.div`
     display: inline-block;
-`
-const FooterLink = styled(Link)`
-    font-family: Helvetica Neue;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 20px;
-    padding: 0 0.5em;
-    color: #D4D4D4;
 `
 const Copyright = styled.div`
     font-family: Helvetica Neue;
