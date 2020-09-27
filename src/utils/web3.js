@@ -2,13 +2,13 @@ import Web3 from "web3"
 import Web3Modal from "web3modal"
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
-import { Web3Settings } from "../config"
+import { WEB3SETTINGS } from "../config"
 
 const providerOptions = {
     walletconnect: {
       package: WalletConnectProvider,
       options: {
-        infuraId: Web3Settings.INFURA.ID
+        infuraId: WEB3SETTINGS.INFURA.ID
       }
     }
 };

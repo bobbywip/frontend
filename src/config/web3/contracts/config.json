@@ -1,0 +1,36 @@
+{
+    "TESTNET": {
+        "KSCP_ABI": "kscp_abi.json",
+        "KSCP_ADDRESS": "0x48e9371c2337e64c9d5081dee1902dc1ccc771eb",
+        "CHAIN_ID": 3,
+        "CHAIN_NAME": "TESTNET (ROPSTEN)",
+        "KNC": {
+            "TOKEN": {
+                "ADDRESS": "0x7b2810576aa1cce68f2b118cef1f36467c648f92",
+                "DECIMALS": 18,
+                "ABI": "knc_token_abi.json"
+            },
+            "STAKING": {
+                "ADDRESS": "0x9A73c6217cd595bc449bA6fEF6efF53f29014f42",
+                "ABI": "knc_staking_abi.json"
+            }
+        }
+    },
+    "MAINNET": {
+        "KSCP_ABI": "kscp_abi.json",
+        "KSCP_ADDRESS": "",
+        "CHAIN_ID": 1,
+        "CHAIN_NAME": "MAINNET",
+        "KNC": {
+            "TOKEN": {
+                "ADDRESS": "0xdd974d5c2e2928dea5f71b9825b8b646686bd200",
+                "DECIMALS": 18,
+                "ABI": "knc_token_abi.json"
+            },
+            "STAKING": {
+                "ADDRESS": "0xECf0bdB7B3F349AbfD68C3563678124c5e8aaea3",
+                "ABI": "knc_staking_abi.json"
+            }
+        }
+    }
+}

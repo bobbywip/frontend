@@ -3,10 +3,11 @@ import styled from "styled-components"
 
 import Header from "./common/header"
 import Footer from  "./common/footer"
+import { NetworkToggle, UnsupportedNetwork, isUnsupportedChainId } from './common/network'
 
 import { web3Modal, initWeb3 } from "../utils/web3"
 
-import { Socials, Web3Settings, KNC_TOKEN_ABI, KNC_STAKING_ABI } from "../config"
+import { Socials, WEB3SETTINGS, KNC_TOKEN_ABI, KNC_STAKING_ABI } from "../config"
 
 const Container = styled.div`
     overflow-x: hidden;
@@ -74,6 +75,10 @@ export default class Layout extends Component {
       networkId
     });
 
+    if(isUnsupportedChainId(this.state.chainId)) {
+      return
+    }
+
     await this.getAccountAssets()
     await this.getStakeDetails()
   };
@@ -112,7 +117,18 @@ export default class Layout extends Component {
       // get account balances (eth)
       const assets_eth = await web3.eth.getBalance(address)
 
-      const contract = await new web3.eth.Contract(KNC_TOKEN_ABI, Web3Settings.CONTRACT.KNC_TOKEN.ADDRESS)
+      let KNC_TOKEN_CONTRACT_ADDRESS;
+      switch(this.state.networkId) {
+        case 1:
+        default:
+          KNC_TOKEN_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KNC.TOKEN.ADDRESS
+          break;
+        case 3:
+          KNC_TOKEN_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KNC.TOKEN.ADDRESS
+          break;
+      }
+
+      const contract = await new web3.eth.Contract(KNC_TOKEN_ABI, KNC_TOKEN_CONTRACT_ADDRESS)
       const assets_knc = await contract.methods.balanceOf(address).call((error, balance) => {
         return balance
       })
@@ -139,7 +155,18 @@ export default class Layout extends Component {
 
     try {
       // get stake details
-      const contract = await new web3.eth.Contract(KNC_STAKING_ABI, Web3Settings.CONTRACT.KNC_STAKING.ADDRESS)
+
+      let KNC_STAKING_CONTRACT_ADDRESS;
+      switch(this.state.networkId) {
+        case 1:
+        default:
+          KNC_STAKING_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KNC.STAKING.ADDRESS
+          break;
+        case 3:
+          KNC_STAKING_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KNC.STAKING.ADDRESS
+          break;
+      }
+      const contract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_CONTRACT_ADDRESS)
       const stake = await contract.methods.getLatestStakerData(address).call((error, data) => {
         return data
       })
@@ -174,18 +201,26 @@ export default class Layout extends Component {
 
   render() {
     return (
-      <Container>
-        <AppStateContext.Provider value={this.state}>
-          <Header 
-            connectToWeb3={this.onConnect}
-            disconnectWeb3={this.resetApp}
-          />
-          {this.props.children}
-          <Footer 
-            socials={Socials}
-          />
-        </AppStateContext.Provider>
-      </Container>
+      <AppStateContext.Provider value={this.state}>
+        {
+          isUnsupportedChainId(this.state.chainId)
+            ? <UnsupportedNetwork />
+            :
+              <Container>
+                  <Header 
+                    connectToWeb3={this.onConnect}
+                    disconnectWeb3={this.resetApp}
+                  />
+                  {this.props.children}
+                  <Footer 
+                    socials={Socials}
+                  />
+                  <NetworkToggle 
+                    callback={this.changeSelectedNetwork}
+                  />
+              </Container>
+          }
+      </AppStateContext.Provider>
     )
   }
 
