@@ -48,7 +48,10 @@ const useGetKncDaoData = period => {
     const [state, setState] = useState({data: null, loading: true}) 
 
     useEffect(() => {
-        fetch(KNC_CONTENT.DAO_API_URL)
+        const abortController = new AbortController()
+        const signal = abortController.signal
+
+        fetch(KNC_CONTENT.DAO_API_URL, {signal: signal})
             .then(res => res.json())
             .then(res => {
 
@@ -74,6 +77,11 @@ const useGetKncDaoData = period => {
 
                 setState({data: stats, loading: false})
             })
+
+        return function cleanup() {
+            abortController.abort()
+        }
+
     }, [period])
 
     return state
