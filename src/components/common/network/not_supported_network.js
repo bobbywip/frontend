@@ -54,9 +54,7 @@ export const isUnsupportedChainId = chainId => {
     const keys = Object.keys(WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG)
 
     const config = keys.filter((key) => {
-        if(WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG[key].CHAIN_ID === chainId) {
-            return key
-        }
+        return WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG[key].CHAIN_ID === chainId
     })
 
     return config.length > 0 ? false : true
