@@ -4,6 +4,9 @@ import { AppStateContext } from "../../layout"
 
 import Ticker from '../../common/ticker'
 
+import LogoEthereum from '../../../static/coins/eth.png'
+import LogoKyber from '../../../static/coins/kyber.png'
+
 const Container = styled.div`
     background: #FFFFFF;
     border-radius: 16px;
@@ -40,6 +43,18 @@ const BodyContainer = styled.div`
 const CoinContainer = styled.div`
     display: block;
     margin: 0 2em;
+
+    &:nth-child(1) {
+        padding-right: 3em;
+        border-right: 2px solid #E5E5E5;
+    }
+`
+const Image = styled.img`
+    text-align: center;
+    height: 32px;
+    width: 25px;
+    display: block;
+    margin: 0.5em;
 `
 
 export default function Portfolio() {
@@ -50,6 +65,7 @@ export default function Portfolio() {
             </HeaderContainer>
             <BodyContainer>
                 <CoinContainer>
+                    <Image src={LogoEthereum} />
                     <AppStateContext.Consumer>
                         {
                             context => {
@@ -69,6 +85,7 @@ export default function Portfolio() {
                 </CoinContainer>
 
                 <CoinContainer>
+                    <Image src={LogoKyber} />
                     <AppStateContext.Consumer>
                         {
                             context => {
