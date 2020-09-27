@@ -18,10 +18,10 @@ Footer.defaultProps = {
 }
 
 const Container = styled.div`
-    margin: 158px 0 0.1em 0;
     width: 100%;
     display: grid;
     place-items: center;
+    text-align: center;
 `
 const Socials = styled.ul`
     list-style-type: none;
