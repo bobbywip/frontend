@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { OnChainButton } from "../../common/buttons"
 
 const Container = styled.div`
-    height: 170px;
+    height: 110px;
     background: #FFD02A;
     border-radius: 16px;
     color: #000;
@@ -32,8 +32,8 @@ const Title = styled.div`
 `
 const BodyContainer = styled.div`
     margin: 0 2em;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(150px, 25%) 1fr;
 `
 const SegmentContainer = styled.div`
     flex: 0 1 auto;
@@ -75,21 +75,25 @@ const ClaimTitle = styled.h4`
     margin: 0;
 `
 const Input = styled.input`
-    display: inline;
+    display: inline-block;
     margin-top: 1rem;
-    display: block;
     border: 1px solid #212121;
     border-radius: 5px;
     background: transparent;
     padding: 0.5em;
-    margin: 0.5em 0;
+    margin: 0.5em 1em 0 0;
+    width: auto;
+`
+const RedeemButton = styled(OnChainButton)`
+    width: auto;
+    display: inline-block;
 `
 
 export default function KNCClaim() {
     return (
         <Container>
             <HeaderContainer>
-                <Title>Total Fee Earned</Title>
+                <Title>Your Fees Earned</Title>
             </HeaderContainer>
             <BodyContainer>
                 <SegmentContainer>
@@ -110,7 +114,7 @@ export default function KNCClaim() {
                             type="number"
                             name="amount"
                         />
-                        <OnChainButton 
+                        <RedeemButton 
                             text="Redeem"
                         />
                     </ClaimContainer>

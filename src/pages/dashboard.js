@@ -51,7 +51,7 @@ const DashboardContents = () => {
             <KNCAction
               title="Total KNC Balance"
               balance={userKncBalance}
-              defaultDescription="You have no tokens yet. First you have to deposit KNC tokens."
+              defaultDescription={`You have no KNC tokens yet.`}
               actionName="Deposit"
               actionButton={
                 <PrimaryButton 
@@ -62,7 +62,7 @@ const DashboardContents = () => {
             <KNCAction
               title="KNC in Pool"
               balance={userKncStaked}
-              defaultDescription="You have no tokens in the pool yet. First you have to deposit KNC tokens."
+              defaultDescription={`You have no tokens in the pool yet. First you have to deposit KNC tokens.`}
               actionName="Withdraw"
               actionButton={
                 <ActionButton 

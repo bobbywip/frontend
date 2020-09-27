@@ -115,6 +115,10 @@ export default function KNCActions(props) {
                     name="input"
                     max={maxInput}
                     min={0}
+                    autocomplete="off"
+                    disabled={
+                        maxInput === 0 ? "disabled" : ""
+                    }
                 />
                 {actionButton}
             </InputContainer>
