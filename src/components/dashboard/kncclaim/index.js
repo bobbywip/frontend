@@ -6,7 +6,7 @@ import Tooltip from "../../common/tooltip"
 
 import { AppStateContext } from "../../layout"
 import { WEB3SETTINGS } from "../../../config"
-import {default as KSCP_CONTRACT_ABI} from "../../../config/web3/contracts/abis/kscp_abi.json"
+const KSCP_CONTRACT_ABI = require("../../../config/web3/contracts/abis/kscp_abi.json")
 
 const Container = styled.div`
     height: 110px;
