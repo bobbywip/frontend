@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react"
 import styled from "styled-components"
 
 import { OnChainButton } from "../../common/buttons"
+import Tooltip from "../../common/tooltip"
 
 import { AppStateContext } from "../../layout"
 import { WEB3SETTINGS } from "../../../config"
@@ -148,7 +149,10 @@ export default function KNCClaim() {
     return (
         <Container>
             <HeaderContainer>
-                <Title>Your Fees Earned</Title>
+                <Title>
+                    <Tooltip text="This panel details the amount of rewards you have from the pool and allows you to redeem them" />
+                    Your Fees Earned
+                </Title>
             </HeaderContainer>
             <BodyContainer>
                 <SegmentContainer>

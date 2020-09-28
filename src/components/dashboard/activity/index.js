@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 import { AppStateContext } from '../../layout'
 
+import Tooltip from '../../common/tooltip'
 import { KNC_CONTENT } from '../../../config'
 import Timeline from './timeline'
 
@@ -86,7 +87,10 @@ export default function Activity() {
     return (
         <Container>
             <HeaderContainer>
-                <Title>Activity Timeline</Title>
+                <Title>
+                    <Tooltip text="This will show your recent transactions with the KNC token and staking" />
+                    Activity Timeline
+                </Title>
                 {
                     isData
                     &&

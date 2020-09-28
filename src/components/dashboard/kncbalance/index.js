@@ -4,6 +4,8 @@ import styled from "styled-components"
 import { KNC_CONTENT } from '../../../config'
 import { Doughnut } from 'react-chartjs-2'
 
+import Tooltip from '../../common/tooltip'
+
 const Container = styled.div`
     background: #FFF;
     border-radius: 16px;
@@ -139,7 +141,10 @@ export default function KNCBalance() {
 
     return (
         <Container>
-            <Title>Total KNC Balance</Title>
+            <Title>
+                <Tooltip text="This shows the amount of rewards that have been burned, rebated, and rewarded since all time" />
+                Total KNC Balance
+            </Title>
             <Description>
                 {
                     loading &&

@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { AppStateContext } from "../../layout"
 
 import Ticker from '../../common/ticker'
+import Tooltip from '../../common/tooltip'
 
 import LogoEthereum from '../../../static/coins/eth.png'
 import LogoKyber from '../../../static/coins/kyber.png'
@@ -61,7 +62,10 @@ export default function Portfolio() {
     return (
         <Container>
             <HeaderContainer>
-                <Title>Portfolio Balance</Title>
+                <Title>
+                    <Tooltip text="This panel detail your holdings in your wallet" />
+                    Portfolio Balance
+                </Title>
             </HeaderContainer>
             <BodyContainer>
                 <CoinContainer>

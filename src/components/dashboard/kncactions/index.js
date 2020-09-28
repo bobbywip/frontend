@@ -3,6 +3,7 @@ import styled from "styled-components"
 import PropTypes from 'prop-types';
 
 import Ticker from '../../common/ticker'
+import Tooltip from '../../common/tooltip'
 
 KNCActions.propTypes = {
     title: PropTypes.string.isRequired,
@@ -13,6 +14,7 @@ KNCActions.propTypes = {
     defaultDescription: PropTypes.string.isRequired,
     actionName: PropTypes.string.isRequired,
     actionButton: PropTypes.element.isRequired,
+    tooltip: PropTypes.string
 }
 
 const Container = styled.div`
@@ -72,18 +74,21 @@ const Input = styled.input`
 `
 const KncContainer = styled.div`
     display: inline-block;
-    font-size: 72px;
+    font-size: 68px;
     text-align: center;
 `
 
 export default function KNCActions(props) {
-    const { title, balance, defaultDescription, actionName, actionButton } = props
+    const { title, balance, defaultDescription, actionName, actionButton, tooltip } = props
 
     const maxInput = balance === null ? 0 : balance
 
     return (
         <Container>
-            <Title>{title}</Title>
+            <Title>
+                {tooltip && <Tooltip text={tooltip} />}
+                {title}
+            </Title>
             <Description>
                 {
                     balance === null 
@@ -98,7 +103,7 @@ export default function KNCActions(props) {
                                     ? 
                                         Math.sign(balance) * ((Math.abs(balance)/1000).toFixed(1)) + `k`
                                     :
-                                        Math.sign(balance) * Math.abs(balance)
+                                        (Math.sign(balance) * Math.abs(balance)).toFixed(0)
                                 } 
                                 <Ticker
                                     ticker="KNC"

@@ -5,6 +5,8 @@ import { AppStateContext } from "../../layout"
 import { WEB3SETTINGS, KNC_CONTENT } from '../../../config'
 import { Line } from 'react-chartjs-2'
 
+import Tooltip from '../../common/tooltip'
+
 // import Pills from "../../common/pills"
 
 const Container = styled.div`
@@ -192,7 +194,10 @@ export default function NetworkFeeGraph() {
     return (
         <Container>
             <HeaderContainer>
-                <Title>Total Fees Earned (by KCSP)</Title>
+                <Title>
+                    <Tooltip text="This shows the fees that the pool has earned from each epoch" />
+                    Total Fees Earned (by KCSP)
+                </Title>
                 {/* <Pills /> */}
             </HeaderContainer>
             <BodyContainer>

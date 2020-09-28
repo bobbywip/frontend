@@ -58,6 +58,7 @@ const DashboardContents = () => {
                   text="Deposit" 
                 />
               }
+              tooltip="This is the amount of KNC you have in your wallet that is not staked"
             />
             <KNCAction
               title="KNC in Pool"
@@ -69,6 +70,7 @@ const DashboardContents = () => {
                   text="Withdraw"
                 />
               }
+              tooltip="This is the amount of KNC tokens you have in the KNC staking contract"
             />
             <NetworkGraph />
           </ActionContainer>
