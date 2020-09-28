@@ -1,7 +1,11 @@
-import React from "react"
+import React, { useState, useEffect, useContext } from "react"
 import styled from "styled-components"
 
 import { OnChainButton } from "../../common/buttons"
+
+import { AppStateContext } from "../../layout"
+import { WEB3SETTINGS } from "../../../config"
+import {default as KSCP_CONTRACT_ABI} from "../../../config/web3/contracts/abis/kscp_abi.json"
 
 const Container = styled.div`
     height: 110px;
@@ -89,7 +93,58 @@ const RedeemButton = styled(OnChainButton)`
     display: inline-block;
 `
 
+// Call getAllUnclaimedRewardsDataMember
+
+const useGetRewardsForMember = (address, networkId, web3) => {
+    const [state, setState] = useState({records: null, loading: true}) 
+
+    useEffect(() => {
+        if(address === "")
+            return
+
+        async function fetchData() {
+            let KCSP_CONTRACT_ADDRESS;
+            switch(networkId) {
+                case 1:
+                default:
+                    KCSP_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KSCP_ADDRESS
+                break;
+                case 3:
+                    KCSP_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KSCP_ADDRESS
+                break;
+            }
+        
+            const contract = await new web3.eth.Contract(KSCP_CONTRACT_ABI, KCSP_CONTRACT_ADDRESS)
+            await contract.methods.getAllUnclaimedRewardsDataMember(address).call((error, res) => {
+                setState({data: res, loading: false})
+            })
+        }
+
+        fetchData()
+
+    }, [address])
+
+    return state
+}
+
+function renderRewardAmount(data, loading)
+{
+    if(loading) {
+        return '...'
+    }
+
+    if(data.length === 0) {
+        return 0
+    }
+
+    // @todo - sum the total rewards and return ETH reward amount
+    return '?'
+}
+
 export default function KNCClaim() {
+    const { address, networkId, web3 } = useContext(AppStateContext);
+    const { data, loading } = useGetRewardsForMember(address, networkId, web3)
+
     return (
         <Container>
             <HeaderContainer>
@@ -98,7 +153,9 @@ export default function KNCClaim() {
             <BodyContainer>
                 <SegmentContainer>
                     <RewardAmount>
-                        0
+                        {
+                            renderRewardAmount(data, loading)
+                        }
                     </RewardAmount>
                     <RewardCurrency>
                         ETH
