@@ -94,8 +94,6 @@ const RedeemButton = styled(OnChainButton)`
     display: inline-block;
 `
 
-// Call getAllUnclaimedRewardsDataMember
-
 const useGetRewardsForMember = (address, networkId, web3) => {
     const [state, setState] = useState({records: null, loading: true}) 
 
@@ -123,7 +121,7 @@ const useGetRewardsForMember = (address, networkId, web3) => {
 
         fetchData()
 
-    }, [address])
+    }, [address, networkId, web3])
 
     return state
 }
