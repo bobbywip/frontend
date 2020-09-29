@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 import { PrimaryButton, SecondaryButton } from "../../common/buttons"
@@ -59,6 +60,15 @@ const ButtonDelegate = styled(PrimaryButton)`
         display: block;
         margin: 0.5em;
     }
+
+    a {
+        color: #222;
+        text-decoration: none;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
 `
 const ButtonReadMore = styled(SecondaryButton)`
     font-size: 15pt;
@@ -78,7 +88,7 @@ export default function Hero() {
                     Don't let your KNC sit idle, put it to work and get rewarded!
                 </Tagline>
                 <Buttons>
-                    <ButtonDelegate text="Delegate my vote" />
+                    <ButtonDelegate text={<Link to="/dashboard">Delegate my vote</Link>} />
                     <ButtonReadMore text="Read more" />
                 </Buttons>
             </TaglineContainer>
