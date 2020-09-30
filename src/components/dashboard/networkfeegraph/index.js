@@ -76,10 +76,10 @@ const useGetStaker = chainId => {
         switch(chainId) {
           case 1:
           default:
-            POOL_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KSCP_ADDRESS
+            POOL_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KCSP_ADDRESS
             break;
           case 3:
-            POOL_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KSCP_ADDRESS
+            POOL_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KCSP_ADDRESS
             break;
         }
 

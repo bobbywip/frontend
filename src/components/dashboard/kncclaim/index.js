@@ -6,7 +6,7 @@ import Tooltip from "../../common/tooltip"
 
 import { AppStateContext } from "../../layout"
 import { WEB3SETTINGS } from "../../../config"
-const KSCP_CONTRACT_ABI = require("../../../config/web3/contracts/abis/kscp_abi.json")
+const KCSP_CONTRACT_ABI = require("../../../config/web3/contracts/abis/kscp_abi.json")
 
 const Container = styled.div`
     height: 110px;
@@ -106,14 +106,14 @@ const useGetRewardsForMember = (address, networkId, web3) => {
             switch(networkId) {
                 case 1:
                 default:
-                    KCSP_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KSCP_ADDRESS
+                    KCSP_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KCSP_ADDRESS
                 break;
                 case 3:
-                    KCSP_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KSCP_ADDRESS
+                    KCSP_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KCSP_ADDRESS
                 break;
             }
         
-            const contract = await new web3.eth.Contract(KSCP_CONTRACT_ABI, KCSP_CONTRACT_ADDRESS)
+            const contract = await new web3.eth.Contract(KCSP_CONTRACT_ABI, KCSP_CONTRACT_ADDRESS)
             await contract.methods.getAllUnclaimedRewardsDataMember(address).call((error, res) => {
                 setState({data: res, loading: false})
             })

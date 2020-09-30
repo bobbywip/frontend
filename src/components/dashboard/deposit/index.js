@@ -105,14 +105,14 @@ export default function Deposit() {
 
     // Logic to handle deposting KNC into the staking pool
     const SendKncTokensToStakeContract = async(amount) => {
-        const { address, networkId, web3 } = context
+        const { address, chainId, web3 } = context
 
         if(web3 === null) {
             console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
             return
         }
 
-        const { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS } = getTokenAddresses(networkId)
+        const { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS } = getTokenAddresses(chainId)
     
         const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
         const tokenContract = await new web3.eth.Contract(KNC_TOKEN_ABI, KNC_TOKEN_ADDRESS)
@@ -155,8 +155,8 @@ export default function Deposit() {
 
     // Logic to check if the user has approved the KNC token
     const UserHasApprovedTokenSpend = async(amount) => {
-        const { address, networkId, web3 } = context
-        const { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS } = getTokenAddresses(networkId)
+        const { address, chainId, web3 } = context
+        const { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS } = getTokenAddresses(chainId)
     
         if(web3 === null) {
             console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
@@ -184,14 +184,14 @@ export default function Deposit() {
 
     // Logic to fetch the users knc balance
     const GetUserTokenBalance = async() => {
-        const { web3, networkId, address } = context
+        const { web3, chainId, address } = context
 
         if(web3 === null) {
             console.log(`no web3 object - cannot GetUserTokenBalance`)
             return
         }
 
-        const { KNC_TOKEN_ADDRESS } = getTokenAddresses(networkId)
+        const { KNC_TOKEN_ADDRESS } = getTokenAddresses(chainId)
 
         const contract = await new web3.eth.Contract(KNC_TOKEN_ABI, KNC_TOKEN_ADDRESS)
         const balance = await contract.methods.balanceOf(address).call((error, balance) => {

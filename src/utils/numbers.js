@@ -17,7 +17,7 @@ export const formatNumberToHuman = (number) => {
     number = parseFloat(number)
 
     if(number < 1) {
-        return number.toFixed(2)
+        return toFixedDecimals(number, 5)
     }
 
     ret = number > 999 

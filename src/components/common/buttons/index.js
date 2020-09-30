@@ -20,7 +20,7 @@ export const PrimaryButton = styled(Button)`
     border: 1px solid #FFD02A;
     color: #222;
 `
-const SecondaryButtonContainer = styled(Button)`
+export const SecondaryButton = styled(Button)`
     background: transparent;
     border: 1px solid #212121;
 `
@@ -32,24 +32,6 @@ const OnChainButtonContainer = styled(Button)`
     background: #6229FF;
     color: #FFF;   
 `
-
-// export function PrimaryButton(props) {
-//     const { className, text, onClick, disabled } = props;
-//     return (
-//         <PrimaryButtonContainer className={className}  onClick={() => onClick()}>
-//             {text}
-//         </PrimaryButtonContainer>
-//     )
-// }
-
-export function SecondaryButton(props) {
-    const { className, text } = props;
-    return (
-        <SecondaryButtonContainer className={className}>
-            {text}
-        </SecondaryButtonContainer>
-    )
-}
 
 export function ActionButton(props) {
     const { className, text, onClick } = props;

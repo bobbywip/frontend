@@ -6,7 +6,7 @@ import { AppStateContext } from "../../layout"
 import { getTokenAddresses, getTransactionReceiptMined } from "../../../utils/web3"
 import { formatNumberToHuman } from "../../../utils/numbers"
 
-import { PrimaryButton } from '../../common/buttons'
+import { PrimaryButton, SecondaryButton } from '../../common/buttons'
 import Ticker from '../../common/ticker'
 import Tooltip from '../../common/tooltip'
 
@@ -85,6 +85,24 @@ const FullNumber = styled.div`
     font-size: 10pt;
     color: #a9a9a9;
 `
+const DelegateContainer = styled.div`
+    display: block;
+    padding: 1em 0;
+`
+const DelegateButton = styled(SecondaryButton)`
+    font-size: 9pt;
+    background: #FFD02A;
+    border: 1px solid #FFD02A;
+
+    ${props => props.disabled &&
+        `
+            opacity: 0.5;
+            &:hover {
+                cursor: not-allowed;
+            }
+        `
+    }
+`
 const WithdrawButton = styled(PrimaryButton)`
     ${props => props.disabled &&
         `
@@ -104,14 +122,14 @@ export default function Withdraw() {
 
     // Logic to handle withdrawing KNC from the staking pool
     const WithdrawKncTokensFromStakeContract = async(amount) => {
-        const { address, networkId, web3 } = context
+        const { address, chainId, web3 } = context
 
         if(web3 === null) {
             console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
             return
         }
 
-        const { KNC_STAKING_ADDRESS } = getTokenAddresses(networkId)
+        const { KNC_STAKING_ADDRESS } = getTokenAddresses(chainId)
 
         const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
 
@@ -140,16 +158,51 @@ export default function Withdraw() {
         })
     }
 
+    // Logic to give voting power to KCSP
+    const DelegateVotingPower = async() => {
+        const { address, chainId, web3 } = context
+
+        if(web3 === null) {
+            console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
+            return
+        }
+
+        const { KCSP_ADDRESS, KNC_STAKING_ADDRESS } = getTokenAddresses(chainId)
+
+        const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
+
+        // Now give the voting power to KCSP
+        await stakeContract.methods.delegate(KCSP_ADDRESS).send({from: address}, async function(err, txHash) {
+            console.log(err)
+
+            if(!err) {
+                console.log(`TxHash: ${txHash}`)
+                setIsTxMining(true)
+                const receipt = await getTransactionReceiptMined(txHash, web3)
+                console.log(receipt)
+
+                // Reset everything and refetch chain details
+                setStakeDetails({
+                    delegatedStake: stakeDetails.delegatedStake,
+                    representative: KCSP_ADDRESS,
+                    stake: stakeDetails.stake
+                })
+                setWithdrawAmount(0)
+                setIsTxMining(false)
+            }
+        })
+    }
+
     // Logic to fetch the users stake balance
     const GetUserStakeDetails = async() => {
-        const { web3, networkId, address } = context
+        const { web3, chainId, address } = context
 
         if(web3 === null) {
             console.log(`no web3 object - cannot GetUserStakeDetails`)
             return
         }
 
-        const { KNC_STAKING_ADDRESS } = getTokenAddresses(networkId)
+        const { KNC_STAKING_ADDRESS } = getTokenAddresses(chainId)
 
         const contract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
         const stake = await contract.methods.getLatestStakerData(address).call((error, data) => {
@@ -178,6 +231,9 @@ export default function Withdraw() {
     const balance = stakeDetails && stakeDetails.stake > 0 ? stakeDetails.stake/1e18 : null
     const maxInput = balance === null ? 0 : balance
 
+    const { KCSP_ADDRESS } = getTokenAddresses(context.chainId)
+    const { web3 } = context;
+
     return (
         <Container pendingTx={isTxMining}>
             <Title>
@@ -200,6 +256,19 @@ export default function Withdraw() {
                                 <FullNumber>{balance}</FullNumber>
                             </KncContainer>
                 }
+
+                <DelegateContainer>
+                {
+                    balance > 0 && web3.utils.toChecksumAddress(stakeDetails.representative) !== web3.utils.toChecksumAddress(KCSP_ADDRESS)
+                    && <DelegateButton 
+                            disabled={isTxMining}
+                            onClick={() => DelegateVotingPower()}
+                        >
+                            <Tooltip text="You have tokens in the KNC staking contract but you need to give KCSP your voting power" />
+                            Delegate vote to KCSP
+                        </DelegateButton>
+                }
+                </DelegateContainer>
             </Description>
             <Separator />
             <Title>Withdraw</Title>

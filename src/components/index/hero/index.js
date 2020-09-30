@@ -91,7 +91,7 @@ export default function Hero() {
                     <ButtonDelegate>
                         <Link to="/dashboard">Delegate my vote</Link>
                     </ButtonDelegate>
-                    <ButtonReadMore text="Read more" />
+                    <ButtonReadMore>Read More</ButtonReadMore>
                 </Buttons>
             </TaglineContainer>
         </Container>
