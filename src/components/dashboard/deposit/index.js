@@ -147,7 +147,7 @@ export default function Deposit() {
                 console.log(receipt)
 
                 // Reset everything and refetch chain details
-                await GetUserTokenBalance()
+                setKncBalance(balance - amount)
                 setIsTxMining(false)
             }
         })
@@ -202,7 +202,14 @@ export default function Deposit() {
     }
 
     useEffect(() => {
-        GetUserTokenBalance()
+
+        async function doStuff() {
+            await GetUserTokenBalance()
+        }
+
+        doStuff()
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isTxMining])
 
     GetUserTokenBalance()

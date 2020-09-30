@@ -129,6 +129,11 @@ export default function Withdraw() {
                 console.log(receipt)
 
                 // Reset everything and refetch chain details
+                setStakeDetails({
+                    delegatedStake: stakeDetails.delegatedStake,
+                    representative: stakeDetails.representative,
+                    stake: stakeDetails.stake - amount
+                })
                 setWithdrawAmount(0)
                 setIsTxMining(false)
             }
@@ -159,7 +164,14 @@ export default function Withdraw() {
     }
 
     useEffect(() => {
-        GetUserStakeDetails()
+
+        async function doStuff() {
+            await GetUserStakeDetails()
+        }
+
+        doStuff()
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isTxMining])
 
     GetUserStakeDetails()
