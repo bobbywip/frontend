@@ -28,7 +28,8 @@ const INITIAL_STATE = {
   stake: [],
   showModal: false,
   pendingRequest: false,
-  result: null
+  result: null,
+  pendingTokenApproval: false
 }
 
 export const AppStateContext = createContext(null)
