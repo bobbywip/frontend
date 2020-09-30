@@ -1,17 +1,12 @@
-import React, { useContext, useState, useEffect } from "react"
+import React, { useContext, useState } from "react"
 import styled from "styled-components"
-import PropTypes from 'prop-types';
 
-import { WEB3SETTINGS, KNC_STAKING_ABI, KNC_TOKEN_ABI } from "../../../config"
+import { WEB3SETTINGS, KNC_STAKING_ABI } from "../../../config"
 import { AppStateContext } from "../../layout"
 
 import { PrimaryButton } from '../../common/buttons'
 import Ticker from '../../common/ticker'
 import Tooltip from '../../common/tooltip'
-
-Withdraw.propTypes = {
-
-}
 
 const Container = styled.div`
     background: #FFF;
@@ -174,7 +169,7 @@ export default function Withdraw() {
                     onChange={(e) => setWithdrawAmount(e.target.value)}
                 />
                 <WithdrawButton 
-                  disabled={withdrawAmount ==0 || withdrawAmount === null ? true : false}
+                  disabled={withdrawAmount === 0 || withdrawAmount === null ? true : false}
                   onClick={() => WithdrawKncTokensFromStakeContract(withdrawAmount, context.address, context.networkId, context.web3)}
                 >
                     Withdraw

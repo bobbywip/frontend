@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect } from "react"
+import React, { useContext, useState } from "react"
 import styled from "styled-components"
-import PropTypes from 'prop-types';
 
 import { WEB3SETTINGS, KNC_STAKING_ABI, KNC_TOKEN_ABI } from "../../../config"
 import { AppStateContext } from "../../layout"
@@ -8,10 +7,6 @@ import { AppStateContext } from "../../layout"
 import { PrimaryButton } from '../../common/buttons'
 import Ticker from '../../common/ticker'
 import Tooltip from '../../common/tooltip'
-
-Deposit.propTypes = {
-
-}
 
 const Container = styled.div`
     background: #FFF;
@@ -223,7 +218,7 @@ export default function Deposit() {
                     onChange={(e) => setDepositAmount(e.target.value)}
                 />
                 <DepositButton 
-                  disabled={depositAmount ==0 || depositAmount === null ? true : false}
+                  disabled={depositAmount === 0 || depositAmount === null ? true : false}
                   onClick={() => SendKncTokensToStakeContract(depositAmount, context.address, context.networkId, context.web3)}
                 >
                     {
