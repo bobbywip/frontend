@@ -7,8 +7,7 @@ import { AppStateContext } from "../components/layout"
 import Header from "../components/dashboard/header"
 import Announcement from "../components/dashboard/announcement"
 import Deposit from "../components/dashboard/deposit"
-import KNCAction from "../components/dashboard/kncactions"
-import { PrimaryButton, ActionButton } from "../components/common/buttons"
+import Withdraw from "../components/dashboard/withdraw"
 import NetworkGraph from "../components/dashboard/networkfeegraph"
 import KNCBalance from "../components/dashboard/kncbalance"
 import KNCClaim from "../components/dashboard/kncclaim"
@@ -38,10 +37,6 @@ const Template = props => {
 }
 
 const DashboardContents = () => {
-  const context = useContext(AppStateContext);
-
-  const userKncStaked = context && context.stake && context.stake.stake > 0 ? context.stake.stake : null
-
   return(
       <MainContainer>
         <Header />
@@ -49,18 +44,7 @@ const DashboardContents = () => {
           <Announcement />
           <ActionContainer>
             <Deposit />
-            <KNCAction
-              title="KNC in Pool"
-              balance={userKncStaked/1e18}
-              defaultDescription={`You have no tokens in the pool yet. First you have to deposit KNC tokens.`}
-              actionName="Withdraw"
-              actionButton={
-                <ActionButton 
-                  text="Withdraw"
-                />
-              }
-              tooltip="This is the amount of KNC tokens you have in the KNC staking contract"
-            />
+            <Withdraw />
             <NetworkGraph />
           </ActionContainer>
           <ActionContainer>

@@ -1,20 +1,16 @@
-import React from "react"
+import React, { useContext, useState, useEffect } from "react"
 import styled from "styled-components"
 import PropTypes from 'prop-types';
 
+import { WEB3SETTINGS, KNC_STAKING_ABI, KNC_TOKEN_ABI } from "../../../config"
+import { AppStateContext } from "../../layout"
+
+import { PrimaryButton } from '../../common/buttons'
 import Ticker from '../../common/ticker'
 import Tooltip from '../../common/tooltip'
 
-KNCActions.propTypes = {
-    title: PropTypes.string.isRequired,
-    balance: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.instanceOf(null)
-    ]),
-    defaultDescription: PropTypes.string.isRequired,
-    actionName: PropTypes.string.isRequired,
-    actionButton: PropTypes.element.isRequired,
-    tooltip: PropTypes.string
+Withdraw.propTypes = {
+
 }
 
 const Container = styled.div`
@@ -77,24 +73,75 @@ const KncContainer = styled.div`
     font-size: 68px;
     text-align: center;
 `
+const WithdrawButton = styled(PrimaryButton)`
+    ${props => props.disabled &&
+        `
+            opacity: 0.5;
+            &:hover {
+                cursor: not-allowed;
+            }
+        `
+    }
+`
 
-export default function KNCActions(props) {
-    const { title, balance, defaultDescription, actionName, actionButton, tooltip } = props
+const getTokenAddresses = (networkId) => {
+    let KNC_STAKING_ADDRESS;
+    let KNC_TOKEN_ADDRESS;
+    switch(networkId) {
+      case 1:
+      default:
+        KNC_STAKING_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KNC.STAKING.ADDRESS
+        KNC_TOKEN_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KNC.TOKEN.ADDRESS
+        break;
+      case 3:
+        KNC_STAKING_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KNC.STAKING.ADDRESS
+        KNC_TOKEN_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KNC.TOKEN.ADDRESS
+        break;
+    }
 
+    return { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS }
+}
+
+// Logic to handle withdrawing KNC from the staking pool
+const WithdrawKncTokensFromStakeContract = async(amount, address, networkId, web3) => {
+
+    if(web3 === null) {
+      console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
+      return
+    }
+
+    const { KNC_STAKING_ADDRESS } = getTokenAddresses(networkId)
+
+    const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
+
+    const amountToWithdraw = web3.utils.toBN(amount)
+    const calculatedAmountToWithdraw = web3.utils.toHex(amountToWithdraw * 1e18)
+
+    // Now withdraw the KNC tokens to the contract
+    await stakeContract.methods.withdraw(calculatedAmountToWithdraw).send({from: address}, function(e) {
+        console.log(e)
+    })
+}
+
+export default function Withdraw() {
+    const context = useContext(AppStateContext)
+    const [withdrawAmount, setWithdrawAmount] = useState(0)
+
+    const balance = context && context.stake && context.stake.stake > 0 ? context.stake.stake/1e18 : null
     const maxInput = balance === null ? 0 : balance
 
     return (
         <Container>
             <Title>
-                {tooltip && <Tooltip text={tooltip} />}
-                {title}
+                <Tooltip text="This is the amount of KNC tokens you have in the KNC staking contract" />
+                KNC in Pool
             </Title>
             <Description>
                 {
                     balance === null 
                         ?
                             <DefaultDescription>
-                                {defaultDescription}
+                                You have no tokens in the pool yet. First you have to deposit KNC tokens.
                             </DefaultDescription>
                         :
                             <KncContainer>
@@ -112,7 +159,7 @@ export default function KNCActions(props) {
                 }
             </Description>
             <Separator />
-            <Title>{actionName}</Title>
+            <Title>Withdraw</Title>
             <InputContainer>
                 <Input 
                     type="number"
@@ -124,8 +171,14 @@ export default function KNCActions(props) {
                     disabled={
                         maxInput === 0 ? "disabled" : ""
                     }
+                    onChange={(e) => setWithdrawAmount(e.target.value)}
                 />
-                {actionButton}
+                <WithdrawButton 
+                  disabled={withdrawAmount ==0 || withdrawAmount === null ? true : false}
+                  onClick={() => WithdrawKncTokensFromStakeContract(withdrawAmount, context.address, context.networkId, context.web3)}
+                >
+                    Withdraw
+                </WithdrawButton>
             </InputContainer>
         </Container>
     )
