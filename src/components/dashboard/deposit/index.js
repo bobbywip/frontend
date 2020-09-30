@@ -148,7 +148,7 @@ const SendKncTokensToStakeContract = async(amount, address, networkId, web3) => 
     const hasUserApproved = await UserHasApprovedTokenSpend(amount, address, networkId, web3)
 
     if(!hasUserApproved) {
-        const infinity = '999999999999999999999999999999999999999999'; //TODO - Make this a set amount or infinity
+        const infinity = '999999999999999999999999999999999999999999'; //TODO - Make this a set amount or infinity?
         await tokenContract.methods.approve(KNC_STAKING_ADDRESS, infinity).send({from: address}, function(e) {
             console.log(e)
         })
