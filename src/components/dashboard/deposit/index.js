@@ -1,8 +1,10 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import styled from "styled-components"
 
-import { WEB3SETTINGS, KNC_STAKING_ABI, KNC_TOKEN_ABI } from "../../../config"
+import { KNC_STAKING_ABI, KNC_TOKEN_ABI } from "../../../config"
 import { AppStateContext } from "../../layout"
+import { getTokenAddresses, getTransactionReceiptMined } from "../../../utils/web3"
+import { formatNumberToHuman } from "../../../utils/numbers"
 
 import { PrimaryButton } from '../../common/buttons'
 import Ticker from '../../common/ticker'
@@ -18,6 +20,16 @@ const Container = styled.div`
 
     @media (max-width: 650px) {
         flex: 1 1 100%;
+    }
+
+    ${props => props.pendingTx && 
+        `
+            opacity: 0.5;
+
+            &:hover {
+                cursor: not-allowed;
+            }
+        `
     }
 `
 const Title = styled.div`
@@ -79,88 +91,117 @@ const DepositButton = styled(PrimaryButton)`
     }
 `
 
-const getTokenAddresses = (networkId) => {
-    let KNC_STAKING_ADDRESS;
-    let KNC_TOKEN_ADDRESS;
-    switch(networkId) {
-      case 1:
-      default:
-        KNC_STAKING_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KNC.STAKING.ADDRESS
-        KNC_TOKEN_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KNC.TOKEN.ADDRESS
-        break;
-      case 3:
-        KNC_STAKING_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KNC.STAKING.ADDRESS
-        KNC_TOKEN_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KNC.TOKEN.ADDRESS
-        break;
-    }
-
-    return { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS }
-}
-
-const UserHasApprovedTokenSpend = async(amount, address, networkId, web3) => {
-    const { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS } = getTokenAddresses(networkId)
-
-    if(web3 === null) {
-        console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
-        return
-    }
-
-    const tokenContract = await new web3.eth.Contract(KNC_TOKEN_ABI, KNC_TOKEN_ADDRESS)
-    // Check the allowance for transferFrom - does the stake contract have a token allowance to spend from the user address?
-    const allowance = await tokenContract.methods.allowance(address, KNC_STAKING_ADDRESS).call((error, balance) => {
-        return balance
-    })
-
-    if(amount === 0 && allowance === 0) {
-        console.log(`We need to call allowance - amount:0 allowance:0`)
-        return false
-    }
-
-    if(allowance === 0 || parseInt(allowance) < parseInt(amount)) {
-        console.log(`We need to call allowance - amount:${parseInt(amount)} allowance:${parseInt(allowance)}`)
-        return false
-    }
-
-    return true
-}
-
-// Logic to handle deposting KNC into the staking pool
-const SendKncTokensToStakeContract = async(amount, address, networkId, web3) => {
-
-    if(web3 === null) {
-      console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
-      return
-    }
-
-    const { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS } = getTokenAddresses(networkId)
-  
-    const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
-    const tokenContract = await new web3.eth.Contract(KNC_TOKEN_ABI, KNC_TOKEN_ADDRESS)
-
-    const amountToStake = web3.utils.toBN(amount)
-    const calculatedAmountToDeposit = web3.utils.toHex(amountToStake * 1e18)
-  
-    const hasUserApproved = await UserHasApprovedTokenSpend(amount, address, networkId, web3)
-
-    if(!hasUserApproved) {
-        const infinity = '999999999999999999999999999999999999999999'; //TODO - Make this a set amount or infinity?
-        await tokenContract.methods.approve(KNC_STAKING_ADDRESS, infinity).send({from: address}, function(e) {
-            console.log(e)
-        })
-    }
-  
-    // Now send the KNC tokens to the contract
-    await stakeContract.methods.deposit(calculatedAmountToDeposit).send({from: address}, function(e) {
-      console.log(e)
-    })
-}
-
 export default function Deposit() {
     const context = useContext(AppStateContext)
     const [depositAmount, setDepositAmount] = useState(0)
+    const [kncBalance, setKncBalance] = useState(0)
+    const [isTxMining, setIsTxMining] = useState(false)
     const [depositOrAllowAction, setDepositOrAllowAction] = useState({name: "Deposit"})
 
-    const balance = context && context.assets[0] && context.assets[0].knc > 0 ? context.assets[0].knc : null
+    // Logic to handle deposting KNC into the staking pool
+    const SendKncTokensToStakeContract = async(amount) => {
+        const { address, networkId, web3 } = context
+
+        if(web3 === null) {
+            console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
+            return
+        }
+
+        const { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS } = getTokenAddresses(networkId)
+    
+        const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
+        const tokenContract = await new web3.eth.Contract(KNC_TOKEN_ABI, KNC_TOKEN_ADDRESS)
+
+        const amountToStake = web3.utils.toBN(amount * 1e18)
+        const calculatedAmountToDeposit = web3.utils.toHex(amountToStake)
+    
+        const hasUserApproved = await UserHasApprovedTokenSpend(amount)
+
+        if(!hasUserApproved) {
+            const infinity = '999999999999999999999999999999999999999999'; //TODO - Make this a set amount or infinity?
+            await tokenContract.methods.approve(KNC_STAKING_ADDRESS, infinity).send({from: address}, async function(err, txHash) {
+                console.log(err)
+
+                if(!err) {
+                    console.log(`TxHash: ${txHash}`)
+                    setIsTxMining(true)
+                    const receipt = await getTransactionReceiptMined(txHash, web3)
+                    console.log(receipt)
+                }
+            })
+        }
+    
+        // Now send the KNC tokens to the contract
+        await stakeContract.methods.deposit(calculatedAmountToDeposit).send({from: address}, async function(err, txHash) {
+            console.log(err)
+
+            if(!err) {
+                console.log(`TxHash: ${txHash}`)
+                setIsTxMining(true)
+                const receipt = await getTransactionReceiptMined(txHash, web3)
+                console.log(receipt)
+
+                // Reset everything and refetch chain details
+                await GetUserTokenBalance()
+                setIsTxMining(false)
+            }
+        })
+    }
+
+    // Logic to check if the user has approved the KNC token
+    const UserHasApprovedTokenSpend = async(amount) => {
+        const { address, networkId, web3 } = context
+        const { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS } = getTokenAddresses(networkId)
+    
+        if(web3 === null) {
+            console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
+            return
+        }
+    
+        const tokenContract = await new web3.eth.Contract(KNC_TOKEN_ABI, KNC_TOKEN_ADDRESS)
+        // Check the allowance for transferFrom - does the stake contract have a token allowance to spend from the user address?
+        const allowance = await tokenContract.methods.allowance(address, KNC_STAKING_ADDRESS).call((error, balance) => {
+            return balance
+        })
+    
+        if(amount === 0 && allowance === 0) {
+            console.log(`We need to call allowance - amount:0 allowance:0`)
+            return false
+        }
+    
+        if(allowance === 0 || parseInt(allowance) < parseInt(amount)) {
+            console.log(`We need to call allowance - amount:${parseInt(amount)} allowance:${parseInt(allowance)}`)
+            return false
+        }
+    
+        return true
+    }
+
+    // Logic to fetch the users knc balance
+    const GetUserTokenBalance = async() => {
+        const { web3, networkId, address } = context
+
+        if(web3 === null) {
+            console.log(`no web3 object - cannot GetUserTokenBalance`)
+            return
+        }
+
+        const { KNC_TOKEN_ADDRESS } = getTokenAddresses(networkId)
+
+        const contract = await new web3.eth.Contract(KNC_TOKEN_ABI, KNC_TOKEN_ADDRESS)
+        const balance = await contract.methods.balanceOf(address).call((error, balance) => {
+          return balance
+        })
+
+        setKncBalance(balance)
+    }
+
+    useEffect(() => {
+        GetUserTokenBalance()
+    }, [isTxMining])
+
+    GetUserTokenBalance()
+    const balance = kncBalance > 0 ? kncBalance/1e18 : null
     const maxInput = balance === null ? 0 : balance
 
     if(depositAmount > 0) {
@@ -175,7 +216,7 @@ export default function Deposit() {
     }
 
     return (
-        <Container>
+        <Container pendingTx={isTxMining}>
             <Title>
                 <Tooltip text="This is the amount of KNC you have in your wallet that is not staked" />
                 Total KNC Balance
@@ -189,13 +230,7 @@ export default function Deposit() {
                             </DefaultDescription>
                         :
                             <KncContainer>
-                                {
-                                    balance > 999 
-                                    ? 
-                                        Math.sign(balance) * ((Math.abs(balance)/1000).toFixed(1)) + `k`
-                                    :
-                                        (Math.sign(balance) * Math.abs(balance)).toFixed(0)
-                                } 
+                                {formatNumberToHuman(balance)} 
                                 <Ticker
                                     ticker="KNC"
                                 />
@@ -218,7 +253,7 @@ export default function Deposit() {
                     onChange={(e) => setDepositAmount(e.target.value)}
                 />
                 <DepositButton 
-                  disabled={depositAmount === 0 || depositAmount === null ? true : false}
+                  disabled={!!depositAmount === false || isTxMining ? true : false}
                   onClick={() => SendKncTokensToStakeContract(depositAmount, context.address, context.networkId, context.web3)}
                 >
                     {

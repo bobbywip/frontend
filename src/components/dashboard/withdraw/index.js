@@ -1,8 +1,10 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import styled from "styled-components"
 
-import { WEB3SETTINGS, KNC_STAKING_ABI } from "../../../config"
+import { KNC_STAKING_ABI } from "../../../config"
 import { AppStateContext } from "../../layout"
+import { getTokenAddresses, getTransactionReceiptMined } from "../../../utils/web3"
+import { formatNumberToHuman } from "../../../utils/numbers"
 
 import { PrimaryButton } from '../../common/buttons'
 import Ticker from '../../common/ticker'
@@ -18,6 +20,16 @@ const Container = styled.div`
 
     @media (max-width: 650px) {
         flex: 1 1 100%;
+    }
+
+    ${props => props.pendingTx && 
+        `
+            opacity: 0.5;
+
+            &:hover {
+                cursor: not-allowed;
+            }
+        `
     }
 `
 const Title = styled.div`
@@ -79,54 +91,78 @@ const WithdrawButton = styled(PrimaryButton)`
     }
 `
 
-const getTokenAddresses = (networkId) => {
-    let KNC_STAKING_ADDRESS;
-    let KNC_TOKEN_ADDRESS;
-    switch(networkId) {
-      case 1:
-      default:
-        KNC_STAKING_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KNC.STAKING.ADDRESS
-        KNC_TOKEN_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KNC.TOKEN.ADDRESS
-        break;
-      case 3:
-        KNC_STAKING_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KNC.STAKING.ADDRESS
-        KNC_TOKEN_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KNC.TOKEN.ADDRESS
-        break;
-    }
-
-    return { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS }
-}
-
-// Logic to handle withdrawing KNC from the staking pool
-const WithdrawKncTokensFromStakeContract = async(amount, address, networkId, web3) => {
-
-    if(web3 === null) {
-      console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
-      return
-    }
-
-    const { KNC_STAKING_ADDRESS } = getTokenAddresses(networkId)
-
-    const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
-
-    const amountToWithdraw = web3.utils.toBN(amount)
-    const calculatedAmountToWithdraw = web3.utils.toHex(amountToWithdraw * 1e18)
-
-    // Now withdraw the KNC tokens to the contract
-    await stakeContract.methods.withdraw(calculatedAmountToWithdraw).send({from: address}, function(e) {
-        console.log(e)
-    })
-}
-
 export default function Withdraw() {
     const context = useContext(AppStateContext)
+    const [stakeDetails, setStakeDetails] = useState({delegatedStake: null, representative: null, stake: null})
     const [withdrawAmount, setWithdrawAmount] = useState(0)
+    const [isTxMining, setIsTxMining] = useState(false)
 
-    const balance = context && context.stake && context.stake.stake > 0 ? context.stake.stake/1e18 : null
+    // Logic to handle withdrawing KNC from the staking pool
+    const WithdrawKncTokensFromStakeContract = async(amount) => {
+        const { address, networkId, web3 } = context
+
+        if(web3 === null) {
+            console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
+            return
+        }
+
+        const { KNC_STAKING_ADDRESS } = getTokenAddresses(networkId)
+
+        const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
+
+        const amountToWithdraw = web3.utils.toBN(amount * 1e18)
+        const calculatedAmountToWithdraw = web3.utils.toHex(amountToWithdraw)
+
+        // Now withdraw the KNC tokens to the contract
+        await stakeContract.methods.withdraw(calculatedAmountToWithdraw).send({from: address}, async function(err, txHash) {
+            console.log(err)
+
+            if(!err) {
+                console.log(`TxHash: ${txHash}`)
+                setIsTxMining(true)
+                const receipt = await getTransactionReceiptMined(txHash, web3)
+                console.log(receipt)
+
+                // Reset everything and refetch chain details
+                setWithdrawAmount(0)
+                setIsTxMining(false)
+            }
+        })
+    }
+
+    // Logic to fetch the users stake balance
+    const GetUserStakeDetails = async() => {
+        const { web3, networkId, address } = context
+
+        if(web3 === null) {
+            console.log(`no web3 object - cannot GetUserStakeDetails`)
+            return
+        }
+
+        const { KNC_STAKING_ADDRESS } = getTokenAddresses(networkId)
+
+        const contract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
+        const stake = await contract.methods.getLatestStakerData(address).call((error, data) => {
+            return data
+        })
+
+        setStakeDetails({
+            delegatedStake: stake.delegatedStake,
+            representative: stake.representative,
+            stake: stake.stake
+        })
+    }
+
+    useEffect(() => {
+        GetUserStakeDetails()
+    }, [isTxMining])
+
+    GetUserStakeDetails()
+    const balance = stakeDetails && stakeDetails.stake > 0 ? stakeDetails.stake/1e18 : null
     const maxInput = balance === null ? 0 : balance
 
     return (
-        <Container>
+        <Container pendingTx={isTxMining}>
             <Title>
                 <Tooltip text="This is the amount of KNC tokens you have in the KNC staking contract" />
                 KNC in Pool
@@ -140,13 +176,7 @@ export default function Withdraw() {
                             </DefaultDescription>
                         :
                             <KncContainer>
-                                {
-                                    balance > 999 
-                                    ? 
-                                        Math.sign(balance) * ((Math.abs(balance)/1000).toFixed(1)) + `k`
-                                    :
-                                        (Math.sign(balance) * Math.abs(balance)).toFixed(0)
-                                } 
+                                {formatNumberToHuman(balance)} 
                                 <Ticker
                                     ticker="KNC"
                                 />
@@ -169,10 +199,12 @@ export default function Withdraw() {
                     onChange={(e) => setWithdrawAmount(e.target.value)}
                 />
                 <WithdrawButton 
-                  disabled={withdrawAmount === 0 || withdrawAmount === null ? true : false}
-                  onClick={() => WithdrawKncTokensFromStakeContract(withdrawAmount, context.address, context.networkId, context.web3)}
+                  disabled={!!withdrawAmount === false || isTxMining ? true : false}
+                  onClick={() => WithdrawKncTokensFromStakeContract(withdrawAmount)}
                 >
-                    Withdraw
+                    {
+                        isTxMining ? `Withdrawing` : `Withdraw`
+                    }
                 </WithdrawButton>
             </InputContainer>
         </Container>

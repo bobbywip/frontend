@@ -7,7 +7,7 @@ import { NetworkToggle, UnsupportedNetwork, isUnsupportedChainId } from './commo
 
 import { web3Modal, initWeb3 } from "../utils/web3"
 
-import { Socials, WEB3SETTINGS, KNC_TOKEN_ABI, KNC_STAKING_ABI } from "../config"
+import { Socials, WEB3SETTINGS, KNC_TOKEN_ABI } from "../config"
 
 const Container = styled.div`
     overflow-x: hidden;
@@ -81,7 +81,6 @@ export default class Layout extends Component {
     }
 
     await this.getAccountAssets()
-    await this.getStakeDetails()
   };
 
   subscribeProvider = async (provider) => {
@@ -95,6 +94,7 @@ export default class Layout extends Component {
       await this.setState({ address: accounts[0] });
       await this.getAccountAssets();
     });
+
     provider.on("chainChanged", async (chainId) => {
       const { web3 } = this.state;
       const networkId = await web3.eth.net.getId();
@@ -149,44 +149,6 @@ export default class Layout extends Component {
     }
 
   };
-
-  getStakeDetails = async() => {
-    const { address, web3 } = this.state;
-    this.setState({ fetching: true });
-
-    try {
-      // get stake details
-
-      let KNC_STAKING_CONTRACT_ADDRESS;
-      switch(this.state.networkId) {
-        case 1:
-        default:
-          KNC_STAKING_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KNC.STAKING.ADDRESS
-          break;
-        case 3:
-          KNC_STAKING_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KNC.STAKING.ADDRESS
-          break;
-      }
-      const contract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_CONTRACT_ADDRESS)
-      const stake = await contract.methods.getLatestStakerData(address).call((error, data) => {
-        return data
-      })
-
-      const data = {
-        delegatedStake: stake.delegatedStake,
-        representative: stake.representative,
-        stake: stake.stake
-      }
-
-      await this.setState({ 
-        fetching: false, 
-        stake: data
-      });
-    } catch (error) {
-      console.log(error)
-      await this.setState({ fetching: false });
-    }
-  }
 
   resetApp = async () => {
     const { web3 } = this.state;
