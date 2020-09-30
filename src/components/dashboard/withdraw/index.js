@@ -80,6 +80,11 @@ const KncContainer = styled.div`
     font-size: 68px;
     text-align: center;
 `
+const FullNumber = styled.div`
+    display: block;
+    font-size: 10pt;
+    color: #a9a9a9;
+`
 const WithdrawButton = styled(PrimaryButton)`
     ${props => props.disabled &&
         `
@@ -180,6 +185,7 @@ export default function Withdraw() {
                                 <Ticker
                                     ticker="KNC"
                                 />
+                                <FullNumber>{balance}</FullNumber>
                             </KncContainer>
                 }
             </Description>
