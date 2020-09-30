@@ -33,9 +33,7 @@ export default function Header() {
         <Title>Kyber Community Staking Dashboard</Title>
         <Trade>
             <a href="https://www.coingecko.com/en/coins/kyber-network#markets" target="_blank" rel="noreferrer noopener">
-                <PrimaryButton 
-                    text="Trade"
-                />
+                <PrimaryButton>Trade</PrimaryButton>
             </a>
         </Trade>
     </Container>

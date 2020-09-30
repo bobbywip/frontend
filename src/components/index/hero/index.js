@@ -88,7 +88,9 @@ export default function Hero() {
                     Don't let your KNC sit idle, put it to work and get rewarded!
                 </Tagline>
                 <Buttons>
-                    <ButtonDelegate text={<Link to="/dashboard">Delegate my vote</Link>} />
+                    <ButtonDelegate>
+                        <Link to="/dashboard">Delegate my vote</Link>
+                    </ButtonDelegate>
                     <ButtonReadMore text="Read more" />
                 </Buttons>
             </TaglineContainer>

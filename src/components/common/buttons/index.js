@@ -1,7 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 
-const Button = styled.div`
+const Button = styled.button`
+    border: 0;
     border-radius: 5px;
     padding: 0.5em 1em;
     font-size: 12pt;
@@ -14,9 +15,10 @@ const Button = styled.div`
     }
 `
 
-const PrimaryButtonContainer = styled(Button)`
+export const PrimaryButton = styled(Button)`
     background: #FFD02A;
     border: 1px solid #FFD02A;
+    color: #222;
 `
 const SecondaryButtonContainer = styled(Button)`
     background: transparent;
@@ -31,14 +33,14 @@ const OnChainButtonContainer = styled(Button)`
     color: #FFF;   
 `
 
-export function PrimaryButton(props) {
-    const { className, text } = props;
-    return (
-        <PrimaryButtonContainer className={className}>
-            {text}
-        </PrimaryButtonContainer>
-    )
-}
+// export function PrimaryButton(props) {
+//     const { className, text, onClick, disabled } = props;
+//     return (
+//         <PrimaryButtonContainer className={className}  onClick={() => onClick()}>
+//             {text}
+//         </PrimaryButtonContainer>
+//     )
+// }
 
 export function SecondaryButton(props) {
     const { className, text } = props;

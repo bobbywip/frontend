@@ -69,7 +69,7 @@ export default function Navigation(props) {
                     </Item>
                     <Item>
                       <PageLink to="/dashboard">
-                        <PrimaryButton text="Deposit" />
+                        <PrimaryButton>Deposit</PrimaryButton>
                       </PageLink>
                     </Item>
                   </>
