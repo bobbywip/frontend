@@ -1,68 +1,60 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Kyber Community Staking Protocol
 
-In the project directory, you can run:
+## Developer
 
-### `yarn start`
+#### Installation
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+nvm use
+yarn
+yarn start
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+#### Build
 
-### `yarn test`
+```bash
+yarn build
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Content Management
 
-### `yarn build`
+#### Update FAQ's
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You can add/remove entries - the frontend will render as many entries there are in this JSON
+* Open file `./src/config/content/faq.js` and change/add/remove the content
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+#### Update blockexplorer and backend APIs
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Open file `./src/config/content/knc.js`
+  * `DAO_API_URL` - data is used to build pie graphs and show total burned, rewarded, and rebate
+  * `DAO_API_USER_REWARDS_URL` - used to fetch the rewards data for a users/kcsp participation in the knc staking
+  * `DAO_API_USER_ACTIVITY_URL` - used to fetch activity data for the user to detail their interactions with the knc staking contract (ie: adding/removing knc tokens)
+  * `BLOCK_EXPLORER` - used to build a link to transactions to a third party site
 
-### `yarn eject`
+#### Update Supporters logo
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+You can add/remove entries - the frontend will render as many entries there are in this JSON
+* Open file `./src/config/content/supporter.js` and change/add/remove the content
+  * Upload the supporter graphic to `./static/supporters` and import like is in the file
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Update how-it-works points
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+You can add/remove entries - the frontend will render as many entries there are in this JSON
+* Open file `./src/config/content/works.js` and change/add/remove the content
+  * Upload the icon graphic to `./static/` and import like is in the file
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Update social links
 
-## Learn More
+You can add/remove entries - the frontend will render as many entries there are in this JSON
+* Open file `./src/config/socials/index.js` and change/add/remove the content
+  * Upload the icon graphic to `./static/social` and import like is in the file
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Update Infura ID
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* Open file `./src/config/web3/index.js` and change the value with key `INFURA.ID`
 
-### Code Splitting
+#### Update Delegation Address (KCSP contract) (& other contract addresses)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* Open file `./src/config/web3/contracts/config.json` and change the value with key `KCSP_ADDRESS` for the relevant network
