@@ -4,6 +4,7 @@ import { Switch, Route, HashRouter } from 'react-router-dom'
 import Home from "./pages/index"
 import Dashboard from "./pages/dashboard"
 
+
 function App() {
   return (
     <HashRouter>

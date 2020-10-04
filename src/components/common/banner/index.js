@@ -15,7 +15,7 @@ const Container = styled.div`
 const Banner = () => {
     return(
         <Container>
-            <span role="img" aria-label="Warning">⚠️</span> The contracts powering KCSP have been <a href="https://github.com/protofire/kyber-pool-master-proxy-contract/blob/master/audit/v1.0.0-KyberPoolSecurity.pdf" target="_blank" rel="noreferrer noopener">audited</a>, but have no been battletested. Please be cautious when using.
+            <span role="img" aria-label="Warning">⚠️</span> The contracts powering KCSP have been <a href="https://github.com/protofire/kyber-pool-master-proxy-contract/blob/master/audit/v1.0.0-KyberPoolSecurity.pdf" target="_blank" rel="noreferrer noopener">audited</a>, but have not been battletested. Please be cautious when using.
         </Container>
     )
 }

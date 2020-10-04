@@ -18,7 +18,7 @@ Supporters.defaultProps = {
 }
 
 const Container = styled.div`
-    margin: auto 0;
+    margin: 5rem auto;
     width: 100%;
     display: grid;
     place-items: center;

@@ -36,9 +36,10 @@ const Title = styled.div`
     color: #000000;
 `
 const BodyContainer = styled.div`
-    margin: 0 2em;
+    margin: 0 1em;
     display: grid;
     grid-template-columns: minmax(150px, 25%) 1fr;
+    height: 90px;
 `
 const SegmentContainer = styled.div`
     flex: 0 1 auto;
@@ -70,7 +71,6 @@ const ClaimContainer = styled.div`
     display: inline-block;
     border-left: 1px solid #212121;
     width: 100%;
-    height: 100%;
     padding: 0 0 0 3em;
 `
 const ClaimTitle = styled.h4`
@@ -172,6 +172,7 @@ export default function KNCClaim() {
                             placeholder="ETH amount"
                             type="number"
                             name="amount"
+                            autocomplete="off"
                         />
                         <RedeemButton 
                             text="Redeem"
