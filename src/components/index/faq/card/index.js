@@ -20,7 +20,7 @@ const Container = styled.div`
     background: ${props => props.id === 1 ? "#FFD02A" : "#F8F8F8"};
 `
 const Question = styled.h3`
-    padding: 0 32px;
+    padding: 32px 32px 0 32px;
     font-family: Helvetica Neue;
     font-style: normal;
     font-weight: 500;
