@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 import Header from "./common/header"
 import Footer from  "./common/footer"
+import Banner from "./common/banner"
 import { NetworkToggle, UnsupportedNetwork, isUnsupportedChainId } from './common/network'
 
 import { web3Modal, initWeb3 } from "../utils/web3"
@@ -165,6 +166,7 @@ export default class Layout extends Component {
   render() {
     return (
       <AppStateContext.Provider value={this.state}>
+        <Banner />
         {
           isUnsupportedChainId(this.state.chainId)
             ? <UnsupportedNetwork />
