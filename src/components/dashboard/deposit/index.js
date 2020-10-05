@@ -9,6 +9,7 @@ import { formatNumberToHuman } from "../../../utils/numbers"
 import { PrimaryButton } from '../../common/buttons'
 import Ticker from '../../common/ticker'
 import Tooltip from '../../common/tooltip'
+import TxPending from '../../common/txpending'
 
 const Container = styled.div`
     background: #FFF;
@@ -101,6 +102,7 @@ export default function Deposit() {
     const [depositAmount, setDepositAmount] = useState(0)
     const [kncBalance, setKncBalance] = useState(0)
     const [isTxMining, setIsTxMining] = useState(false)
+    const [txHash, setTxHash] = useState(0)
     const [depositOrAllowAction, setDepositOrAllowAction] = useState({name: "Deposit"})
 
     // Logic to handle deposting KNC into the staking pool
@@ -130,6 +132,7 @@ export default function Deposit() {
                 if(!err) {
                     console.log(`TxHash: ${txHash}`)
                     setIsTxMining(true)
+                    setTxHash(txHash)
                     const receipt = await getTransactionReceiptMined(txHash, web3)
                     console.log(receipt)
                 }
@@ -143,12 +146,14 @@ export default function Deposit() {
             if(!err) {
                 console.log(`TxHash: ${txHash}`)
                 setIsTxMining(true)
+                setTxHash(txHash)
                 const receipt = await getTransactionReceiptMined(txHash, web3)
                 console.log(receipt)
 
                 // Reset everything and refetch chain details
                 setKncBalance(balance - amount)
                 setIsTxMining(false)
+                setTxHash(false)
             }
         })
     }
@@ -273,6 +278,9 @@ export default function Deposit() {
                         depositOrAllowAction.name
                     }
                 </DepositButton>
+                {
+                    isTxMining && <TxPending hash={txHash.toString()} />
+                }
             </InputContainer>
         </Container>
     )

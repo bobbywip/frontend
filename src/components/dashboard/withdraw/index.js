@@ -9,6 +9,7 @@ import { formatNumberToHuman } from "../../../utils/numbers"
 import { PrimaryButton, SecondaryButton } from '../../common/buttons'
 import Ticker from '../../common/ticker'
 import Tooltip from '../../common/tooltip'
+import TxPending from '../../common/txpending'
 
 const Container = styled.div`
     background: #FFF;
@@ -119,6 +120,7 @@ export default function Withdraw() {
     const [stakeDetails, setStakeDetails] = useState({delegatedStake: null, representative: null, stake: null})
     const [withdrawAmount, setWithdrawAmount] = useState(0)
     const [isTxMining, setIsTxMining] = useState(false)
+    const [txHash, setTxHash] = useState(0)
 
     // Logic to handle withdrawing KNC from the staking pool
     const WithdrawKncTokensFromStakeContract = async(amount) => {
@@ -143,6 +145,7 @@ export default function Withdraw() {
             if(!err) {
                 console.log(`TxHash: ${txHash}`)
                 setIsTxMining(true)
+                setTxHash(txHash)
                 const receipt = await getTransactionReceiptMined(txHash, web3)
                 console.log(receipt)
 
@@ -154,6 +157,7 @@ export default function Withdraw() {
                 })
                 setWithdrawAmount(0)
                 setIsTxMining(false)
+                setTxHash(false)
             }
         })
     }
@@ -293,6 +297,9 @@ export default function Withdraw() {
                         isTxMining ? `Withdrawing` : `Withdraw`
                     }
                 </WithdrawButton>
+                {
+                    isTxMining && <TxPending hash={txHash.toString()} />
+                }
             </InputContainer>
         </Container>
     )
