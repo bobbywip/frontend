@@ -72,6 +72,7 @@ const ButtonDelegate = styled(PrimaryButton)`
 `
 const ButtonReadMore = styled(SecondaryButton)`
     font-size: 15pt;
+    margin: 0 1em 0 0;
 
     @media (max-width: 768px) {
         width: 250px;
