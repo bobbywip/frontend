@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import styled from "styled-components"
 
 import { KNC_CONTENT } from '../../../config'
 import { Doughnut } from 'react-chartjs-2'
 
 import Tooltip from '../../common/tooltip'
+import { AppStateContext } from '../../layout'
+import { formatRestApiEndpoint } from '../../../utils/endpoints'
 
 const Container = styled.div`
     background: #FFF;
@@ -46,14 +48,14 @@ const DefaultDescription = styled.div`
 const ChartArea = styled.div`
 `
 
-const useGetKncDaoData = period => {
+const useGetKncDaoData = (period, chainId) => {
     const [state, setState] = useState({data: null, loading: true}) 
 
     useEffect(() => {
         const abortController = new AbortController()
         const signal = abortController.signal
 
-        fetch(KNC_CONTENT.DAO_API_URL, {signal: signal})
+        fetch(formatRestApiEndpoint(KNC_CONTENT.DAO_API_URL, chainId), {signal: signal})
             .then(res => res.json())
             .then(res => {
 
@@ -84,15 +86,16 @@ const useGetKncDaoData = period => {
             abortController.abort()
         }
 
-    }, [period])
+    }, [period, chainId])
 
     return state
 }
 
 export default function KNCBalance() {
     const [period] = useState(0) //0 = all time, 1 = current epoch
+    const { chainId } = useContext(AppStateContext)
 
-    const { data, loading } = useGetKncDaoData(period)
+    const { data, loading } = useGetKncDaoData(period, chainId)
     
     let chartData = {
         labels: [

@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react"
 import styled from "styled-components"
 
 import { AppStateContext } from "../../layout"
+import { formatRestApiEndpoint } from "../../../utils/endpoints"
 import { WEB3SETTINGS, KNC_CONTENT } from '../../../config'
 import { Line } from 'react-chartjs-2'
 
@@ -83,7 +84,7 @@ const useGetStaker = chainId => {
             break;
         }
 
-        fetch(KNC_CONTENT.DAO_API_USER_REWARDS_URL.replace("{address}", POOL_ADDRESS), {signal: signal})
+        fetch(formatRestApiEndpoint(KNC_CONTENT.DAO_API_USER_REWARDS_URL.replace("{address}", POOL_ADDRESS), chainId), {signal: signal})
             .then(res => res.json())
             .then(res => {
                 setState({data: res.data, loading: false})

@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react"
 import styled from "styled-components"
 
 import { AppStateContext } from '../../layout'
+import { formatRestApiEndpoint } from '../../../utils/endpoints'
 
 import Tooltip from '../../common/tooltip'
 import { KNC_CONTENT } from '../../../config'
@@ -59,7 +60,7 @@ const NoActivityContainer = styled.div`
     );
 `
 
-const useGetUserDaoActivityData = address => {
+const useGetUserDaoActivityData = (address, chainId) => {
     const [state, setState] = useState({records: null, loading: true}) 
 
     useEffect(() => {
@@ -67,7 +68,7 @@ const useGetUserDaoActivityData = address => {
         if(address === "")
             return
 
-        fetch(KNC_CONTENT.DAO_API_USER_ACTIVITY_URL.replace("{address}", address))
+        fetch(formatRestApiEndpoint(KNC_CONTENT.DAO_API_USER_ACTIVITY_URL.replace("{address}", address), chainId))
             .then(res => res.json())
             .then(res => {
                 setState({records: res, loading: false})
@@ -79,8 +80,8 @@ const useGetUserDaoActivityData = address => {
 
 export default function Activity() {
     const [showAllActivity, setShowAllActivity] = useState(false)
-    const context = useContext(AppStateContext);
-    const { records, loading } = useGetUserDaoActivityData(context.address)
+    const { address, chainId } = useContext(AppStateContext);
+    const { records, loading } = useGetUserDaoActivityData(address, chainId)
 
     const isData = records === null || records.data === null ? false : true
 
