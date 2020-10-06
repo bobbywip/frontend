@@ -182,6 +182,7 @@ export default function Withdraw() {
             if(!err) {
                 console.log(`TxHash: ${txHash}`)
                 setIsTxMining(true)
+                setTxHash(txHash)
                 const receipt = await getTransactionReceiptMined(txHash, web3)
                 console.log(receipt)
 
@@ -193,6 +194,7 @@ export default function Withdraw() {
                 })
                 setWithdrawAmount(0)
                 setIsTxMining(false)
+                setTxHash(false)
             }
         })
     }

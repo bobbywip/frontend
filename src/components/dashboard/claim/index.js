@@ -140,7 +140,7 @@ function renderRewardAmount(data, loading)
     return '?'
 }
 
-export default function KNCClaim() {
+export default function Claim() {
     const { address, networkId, web3 } = useContext(AppStateContext);
     const { data, loading } = useGetRewardsForMember(address, networkId, web3)
 
@@ -148,7 +148,7 @@ export default function KNCClaim() {
         <Container>
             <HeaderContainer>
                 <Title>
-                    <Tooltip text="This panel details the amount of rewards you have from the pool and allows you to redeem them" />
+                    <Tooltip text="This panel details the amount of rewards you have from the pool and allows you to claim them" />
                     Your Fees Earned
                 </Title>
             </HeaderContainer>
