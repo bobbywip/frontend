@@ -1,7 +1,7 @@
 {
     "TESTNET": {
         "KCSP_ABI": "kscp_abi.json",
-        "KCSP_ADDRESS": "0xcd5d2cac796689ce87e8e2dad3fc96b138dc5b0e",
+        "KCSP_ADDRESS": "0x384931890dceef4e112d64714f43f8eaa4f8d0e9",
         "CHAIN_ID": 3,
         "CHAIN_NAME": "TESTNET (ROPSTEN)",
         "KNC": {
