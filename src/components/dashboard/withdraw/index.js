@@ -265,7 +265,7 @@ export default function Withdraw() {
 
                 <DelegateContainer>
                 {
-                    balance > 0 && web3.utils.toChecksumAddress(stakeDetails.representative) !== web3.utils.toChecksumAddress(KCSP_ADDRESS)
+                    balance > 0 && 'utils' in web3 && web3.utils.toChecksumAddress(stakeDetails.representative) !== web3.utils.toChecksumAddress(KCSP_ADDRESS)
                     && <DelegateButton 
                             disabled={isTxMining}
                             onClick={() => DelegateVotingPower()}

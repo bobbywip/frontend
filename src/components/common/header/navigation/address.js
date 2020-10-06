@@ -8,6 +8,7 @@ MyAddress.propTypes = {
 
 const Container = styled.div`
     display: flex;
+    margin: 0;
 `
 const Ellipse = styled.div`
     background: #FFC107;
@@ -32,6 +33,7 @@ const AddressContainer = styled.div`
     font-weight: 300;
     font-size: 14px;
     line-height: 16px;
+    margin: 0;
 `
 const Disconnect = styled.div`
     display: block;
