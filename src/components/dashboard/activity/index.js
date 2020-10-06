@@ -73,7 +73,7 @@ const useGetUserDaoActivityData = (address, chainId) => {
             .then(res => {
                 setState({records: res, loading: false})
             })
-    }, [address])
+    }, [address, chainId])
 
     return state
 }
