@@ -197,7 +197,7 @@ export default function NetworkFeeGraph() {
             <HeaderContainer>
                 <Title>
                     <Tooltip text="This shows the fees that the pool has earned from each epoch" />
-                    Total Fees Earned (by KCSP)
+                    Total Fees Earned (by KCP)
                 </Title>
                 {/* <Pills /> */}
             </HeaderContainer>

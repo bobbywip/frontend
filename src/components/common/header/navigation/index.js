@@ -46,7 +46,7 @@ export default function Navigation(props) {
 
     return (
       <>
-          <Title to="/">KCSP</Title>
+          <Title to="/">KCP</Title>
           <List>
             {
               isHomepage

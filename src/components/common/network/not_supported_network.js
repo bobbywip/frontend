@@ -69,7 +69,7 @@ export default function UnsupportedNetwork() {
                 <Icon src={WarningGraphic} alt="Warning Image" />
                 <Heading>Unsupported Network!</Heading>
                 <Text>
-                    {chainIdToName(chainId)} is not a supported network with KCSP!
+                    {chainIdToName(chainId)} is not a supported network with KCP!
                 </Text>
                 <Text>
                     Please switch your provider to Mainnet or Ropsten!
