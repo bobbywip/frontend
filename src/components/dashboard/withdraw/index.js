@@ -13,6 +13,7 @@ import TxPending from '../../common/txpending'
 
 const Container = styled.div`
     background: #FFF;
+    border: 1px solid #c5c5c5;
     border-radius: 16px;
     color: #000;
     padding: 2em;
@@ -162,7 +163,7 @@ export default function Withdraw() {
         })
     }
 
-    // Logic to give voting power to KCSP
+    // Logic to give voting power to KCP
     const DelegateVotingPower = async() => {
         const { address, chainId, web3 } = context
 
@@ -175,7 +176,7 @@ export default function Withdraw() {
 
         const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
 
-        // Now give the voting power to KCSP
+        // Now give the voting power to KCP
         await stakeContract.methods.delegate(KCSP_ADDRESS).send({from: address}, async function(err, txHash) {
             console.log(err)
 
@@ -270,8 +271,8 @@ export default function Withdraw() {
                             disabled={isTxMining}
                             onClick={() => DelegateVotingPower()}
                         >
-                            <Tooltip text="You have tokens in the KNC staking contract but you need to give KCSP your voting power" />
-                            Delegate vote to KCSP
+                            <Tooltip text="You have tokens in the KNC staking contract but you need to give KCP your voting power" />
+                            Delegate vote to KCP
                         </DelegateButton>
                 }
                 </DelegateContainer>
