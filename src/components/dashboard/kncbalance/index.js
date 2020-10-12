@@ -15,7 +15,6 @@ const Container = styled.div`
     color: #000;
     padding: 2em;
     margin: 1em 1em 1em 0;
-    overflow-x: hidden;
     flex: 0 1 460px;
 
     @media (max-width: 650px) {
