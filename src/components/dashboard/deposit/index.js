@@ -66,6 +66,7 @@ const Separator = styled.hr`
     margin: 0 0 2em 0;
 `
 const InputContainer = styled.div`
+    position: relative;
     display: grid;
     place-items: center;
 `
@@ -95,6 +96,19 @@ const DepositButton = styled(PrimaryButton)`
                 cursor: not-allowed;
             }
         `
+    }
+`
+const MaxInputButton = styled.button`
+    position: absolute;
+    float: right;
+    right: 1.5rem;
+    top: 16%;
+    height: 22px;
+    background: #FFD02A;
+    border: none;
+
+    &:hover {
+        cursor: pointer;
     }
 `
 
@@ -270,7 +284,11 @@ export default function Deposit() {
                         maxInput === 0 ? "disabled" : ""
                     }
                     onChange={(e) => setDepositAmount(e.target.value)}
+                    value={depositAmount > 0 ? depositAmount : null}
                 />
+                <MaxInputButton onClick={() => setDepositAmount(maxInput)}>
+                    MAX
+                </MaxInputButton>
                 <DepositButton 
                   disabled={!!depositAmount === false || isTxMining ? true : false}
                   onClick={() => SendKncTokensToStakeContract(depositAmount, context.address, context.networkId, context.web3)}
