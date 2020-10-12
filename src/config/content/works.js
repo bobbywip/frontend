@@ -31,7 +31,7 @@ const HOW_IT_WORKS_CONTENT = [
       key: 3,
       image: RewardingLogo,
       header: "Rewarding",
-      body: "When using Kyber Community Pool, you're earning a share of fees generated on Kyber Network in the form of ETH. On top of that, you're also rewarded with knowning that our pool takes pride in prioritizing the community's mindset when it comes to governing the protocol."
+      body: "When using Kyber Community Pool, you're earning a share of fees generated on Kyber Network in the form of ETH. On top of that, you're also rewarded with knowing that our pool takes pride in prioritizing the community's mindset when it comes to governing the protocol."
     }
 ]
 
