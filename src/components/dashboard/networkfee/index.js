@@ -91,7 +91,7 @@ const useGetKncDaoData = (period, chainId) => {
     return state
 }
 
-export default function KNCBalance() {
+export default function NetworkFee() {
     const [period] = useState(0) //0 = all time, 1 = current epoch
     const { chainId } = useContext(AppStateContext)
 
@@ -146,7 +146,7 @@ export default function KNCBalance() {
         <Container>
             <Title>
                 <Tooltip text="This shows the amount of rewards that have been burned, rebated, and rewarded since all time" />
-                Total KNC Balance
+                Network Fee
             </Title>
             <Description>
                 {
