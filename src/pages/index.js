@@ -5,10 +5,10 @@ import Layout from "../components/layout"
 import Hero from "../components/index/hero"
 import Preview from "../components/index/preview"
 import Cards from "../components/index/cards"
-import Supporters from "../components/index/supporters"
+import BuiltBy from "../components/index/builtby"
 import Faq from "../components/index/faq"
 
-import { HOW_IT_WORKS_CONTENT, SUPPORTERS_CONTENT, FAQ_CONTENT } from "../config"
+import { HOW_IT_WORKS_CONTENT, FAQ_CONTENT } from "../config"
 
 const MainContainer = styled.div`
   width: 100%;
@@ -25,9 +25,7 @@ export default function Home({ location }) {
         <Preview />
         <Cards 
           cards={HOW_IT_WORKS_CONTENT} />
-        <Supporters 
-          supporters={SUPPORTERS_CONTENT}
-        />
+        <BuiltBy />
         <Faq 
           faqs={FAQ_CONTENT}
         />
