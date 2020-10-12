@@ -18,24 +18,11 @@ const Title = styled.h2`
     letter-spacing: 0.1px;
     color: #6229FF;
 `
-const Trade = styled.div`
-    place-items: center;
-    text-align: right;
-    margin: auto 0;
-    width: 100px;
-    right: 0;
-    color: #212121;
-`
 
 export default function Header() {
   return (
     <Container>
         <Title>Kyber Community Staking Dashboard</Title>
-        <Trade>
-            <a href="https://www.coingecko.com/en/coins/kyber-network#markets" target="_blank" rel="noreferrer noopener">
-                <PrimaryButton>Trade</PrimaryButton>
-            </a>
-        </Trade>
     </Container>
   )
 }
