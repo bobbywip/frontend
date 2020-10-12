@@ -47,6 +47,30 @@ const DefaultDescription = styled.div`
 `
 const ChartArea = styled.div`
 `
+const PeriodSelectorContainer = styled.ul`
+    list-style-type: none;
+    font-size: 0.8rem;
+`
+const PeriodSelector = styled.li`
+    display: inline-block;
+    padding: 0 0.5rem;
+    border: 1px solid #000;
+
+    &:nth-child(1) {
+        border-right: none;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    ${props => props.active 
+    && 
+    `
+        background: #000;
+        color: #FFF;
+    `}
+`
 
 const useGetKncDaoData = (period, chainId) => {
     const [state, setState] = useState({data: null, loading: true}) 
@@ -65,18 +89,27 @@ const useGetKncDaoData = (period, chainId) => {
                     reward: 0
                 }
 
-                if(period === 1) {
+                if(period === 1) { // current epoch
+                    const total = res.data.current_epoch_burn + res.data.current_epoch_rebate + res.data.current_epoch_reward;
+
                     stats = {
-                        burn: res.data.total_burn,
-                        rebate: res.data.total_rebate,
-                        reward: res.data.total_reward
+                        burn: (res.data.current_epoch_burn/total)*100,
+                        rebate: (res.data.current_epoch_rebate/total)*100,
+                        reward: (res.data.current_epoch_reward/total)*100
                     }
-                } else {
+
+                    console.log(`total period 1: ${total}`, stats)
+
+                } else { // all time
+                    const total = res.data.total_burn + res.data.total_rebate + res.data.total_reward;
+
                     stats = {
-                        burn: res.data.current_epoch_burn,
-                        rebate: res.data.current_epoch_rebate,
-                        reward: res.data.current_epoch_reward
+                        burn: (res.data.total_burn/total)*100,
+                        rebate: (res.data.total_rebate/total)*100,
+                        reward: (res.data.total_reward/total)*100
                     }
+
+                    console.log(`total period 0: ${total}`, stats)
                 }
 
                 setState({data: stats, loading: false})
@@ -92,7 +125,7 @@ const useGetKncDaoData = (period, chainId) => {
 }
 
 export default function NetworkFee() {
-    const [period] = useState(0) //0 = all time, 1 = current epoch
+    const [period, setPeriod] = useState(0) //0 = all time, 1 = current epoch
     const { chainId } = useContext(AppStateContext)
 
     const { data, loading } = useGetKncDaoData(period, chainId)
@@ -106,7 +139,7 @@ export default function NetworkFee() {
         datasets: [{
             data: [
                0,
-               100,
+               0,
                0
             ],
             backgroundColor: [
@@ -130,10 +163,11 @@ export default function NetworkFee() {
     }
 
     if(loading === false) {
+        console.log(data)
         chartData.datasets[0].data = [
             data.burn,
             data.rebate,
-            data.reward
+            data.reward,
         ]
         chartData.datasets[0].backgroundColor = [
             '#212121',
@@ -149,6 +183,12 @@ export default function NetworkFee() {
                 Network Fee
             </Title>
             <Description>
+
+                <PeriodSelectorContainer>
+                    <PeriodSelector active={period === 0} onClick={() => setPeriod(parseInt(0))}>All Time</PeriodSelector>
+                    <PeriodSelector active={period === 1} onClick={() => setPeriod(parseInt(1))}>Current Epoch</PeriodSelector>
+                </PeriodSelectorContainer>
+
                 {
                     loading &&
                     <DefaultDescription>
