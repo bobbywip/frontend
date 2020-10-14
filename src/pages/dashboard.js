@@ -8,7 +8,7 @@ import Announcement from "../components/dashboard/announcement"
 import Deposit from "../components/dashboard/deposit"
 import Withdraw from "../components/dashboard/withdraw"
 import NetworkGraph from "../components/dashboard/networkfeegraph"
-import KNCBalance from "../components/dashboard/kncbalance"
+import NetworkFee from "../components/dashboard/networkfee"
 import Claim from "../components/dashboard/claim"
 import Portfolio from "../components/dashboard/portfolio"
 import Activity from "../components/dashboard/activity"
@@ -47,7 +47,7 @@ const DashboardContents = () => {
             <NetworkGraph />
           </ActionContainer>
           <ActionContainer>
-            <KNCBalance />
+            <NetworkFee />
             <Claim />
           </ActionContainer>
           <ActionContainer>

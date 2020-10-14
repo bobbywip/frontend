@@ -59,7 +59,7 @@ export default function Navigation(props) {
                       <NavLink href="#how-it-works">How it works</NavLink>
                     </Item>
                     <Item>
-                      <NavLink href="#supporters">Supporters</NavLink>
+                      <NavLink href="#team">Team</NavLink>
                     </Item>
                     <Item>
                       <NavLink href="#faq">FAQ</NavLink>

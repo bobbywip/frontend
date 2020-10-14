@@ -66,6 +66,7 @@ const Separator = styled.hr`
     margin: 0 0 2em 0;
 `
 const InputContainer = styled.div`
+    position: relative;
     display: grid;
     place-items: center;
 `
@@ -106,6 +107,28 @@ const DelegateButton = styled(SecondaryButton)`
     }
 `
 const WithdrawButton = styled(PrimaryButton)`
+    ${props => props.disabled &&
+        `
+            opacity: 0.5;
+            &:hover {
+                cursor: not-allowed;
+            }
+        `
+    }
+`
+const MaxInputButton = styled.button`
+    position: absolute;
+    float: right;
+    right: 1.5rem;
+    top: 16%;
+    height: 22px;
+    background: #FFD02A;
+    border: none;
+
+    &:hover {
+        cursor: pointer;
+    }
+
     ${props => props.disabled &&
         `
             opacity: 0.5;
@@ -291,7 +314,14 @@ export default function Withdraw() {
                         maxInput === 0 ? "disabled" : ""
                     }
                     onChange={(e) => setWithdrawAmount(e.target.value)}
+                    value={withdrawAmount > 0 ? withdrawAmount : null}
                 />
+                <MaxInputButton 
+                    onClick={() => setWithdrawAmount(maxInput)}
+                    disabled={!!withdrawAmount === false || isTxMining ? true : false}
+                >
+                    MAX
+                </MaxInputButton>
                 <WithdrawButton 
                   disabled={!!withdrawAmount === false || isTxMining ? true : false}
                   onClick={() => WithdrawKncTokensFromStakeContract(withdrawAmount)}
