@@ -22,7 +22,7 @@ const Container = styled.div`
         position: absolute;
         right: 0;
         margin-top: -18rem;
-        width: 572px;
+        width: 594px;
         height: 437px;
     }
 
