@@ -21,7 +21,7 @@ Cards.defaultProps = {
 const Container = styled.div`
     margin: auto 0;
     width: auto;
-    background: #F8F8F8;
+    background: linear-gradient(#FFF, #F8F8F8);
     display: grid;
     place-items: center;
 `
