@@ -15,7 +15,7 @@ import Activity from "../components/dashboard/activity"
 
 const MainContainer = styled.div`
   width: 80%;
-  margin: auto auto;
+  margin: auto auto 58px auto;
 `
 const PillContainer = styled.div`
   background: #F8F8F8;
