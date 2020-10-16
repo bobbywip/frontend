@@ -22,6 +22,7 @@ const PillContainer = styled.div`
   border-radius: 16px;
   padding: 1em;
   max-width: 1238px;
+  margin: 0 auto;
 `
 const ActionContainer = styled.div`
   display: flex;
