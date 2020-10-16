@@ -15,6 +15,7 @@ Preview.defaultProps = {
 const Container = styled.div`
     width: 730px;
     margin: 1em auto;
+    padding: 83px 0;
 
     @media (max-width: 900px) {
         width: 100%;
@@ -22,8 +23,8 @@ const Container = styled.div`
     }
 `
 const Headline = styled.h2`
-    text-align: center;
     height: 180px;
+    font-weight: 700;
     font-family: Helvetica Neue;
     font-style: normal;
     font-weight: bold;
@@ -36,9 +37,11 @@ const Headline = styled.h2`
 `
 const PreviewImage = styled.img`
     margin: 1em 0;
-    width: 80%;
+    width: 1229px;
+    margin-left: -35%;
 
     @media (max-width: 900px) {
+        margin: 0;
         width: 100%;
     }
 `
@@ -49,7 +52,7 @@ export default function Preview(props) {
     return (
         <Container id={id}>
             <Headline>
-                Earn ETH passively - no strings attached.
+                Earn ETH passively - <br />no strings attached.
             </Headline>
             <PreviewImage src={PreviewSvg} />
         </Container>
