@@ -22,11 +22,12 @@ const Container = styled.div`
     display: grid;
     place-items: center;
     text-align: center;
+    margin: 0;
 `
 const Socials = styled.ul`
     list-style-type: none;
     display: inline-block;
-    margin: 188px 0 0 0;
+    margin: 0;
 `
 const Item = styled.li`
     display: inline-block;
