@@ -18,6 +18,14 @@ const Container = styled.div`
     flex: 1 1 500px;
     height: auto;
 
+    @media (min-width: 1580px) {
+        position: absolute;
+        right: 0;
+        margin-top: -18rem;
+        width: 572px;
+        height: 437px;
+    }
+
     @media (max-width: 650px) {
         flex: 1 1 100%;
     }
@@ -52,8 +60,12 @@ const NoActivityContainer = styled.div`
     color: #BDBDBD;
     font-size: 14px;
     margin: 2em 0;
-    height: 10rem;
+    height: 5rem;
     padding-top: 3rem;
+
+    @media (min-width: 1580px) {
+        height: 300px;
+    }
 
     background: repeating-linear-gradient(
         white, white 35px,

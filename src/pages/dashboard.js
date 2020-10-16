@@ -21,10 +21,12 @@ const PillContainer = styled.div`
   background: #F8F8F8;
   border-radius: 16px;
   padding: 1em;
+  max-width: 1238px;
 `
 const ActionContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  position: relative;
 `
 
 const Template = props => {
