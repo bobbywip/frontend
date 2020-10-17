@@ -15,16 +15,19 @@ import Activity from "../components/dashboard/activity"
 
 const MainContainer = styled.div`
   width: 80%;
-  margin: auto auto;
+  margin: auto auto 58px auto;
 `
 const PillContainer = styled.div`
   background: #F8F8F8;
   border-radius: 16px;
   padding: 1em;
+  max-width: 1238px;
+  margin: 0 auto;
 `
 const ActionContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  position: relative;
 `
 
 const Template = props => {

@@ -52,8 +52,12 @@ const Buttons = styled.div`
     }
 `
 const ButtonDelegate = styled(PrimaryButton)`
+    flex-grow: 0;
     margin: 0 1em 0 0;
-    font-size: 15pt;
+    font-size: 16pt;
+    width: 219px;
+    height: 40px;
+    line-height: 10px;
 
     @media (max-width: 768px) {
         width: 250px;
@@ -71,8 +75,12 @@ const ButtonDelegate = styled(PrimaryButton)`
     }
 `
 const ButtonReadMore = styled(SecondaryButton)`
-    font-size: 15pt;
+    flex-grow: 0;
+    font-size: 16pt;
     margin: 0 1em 0 0;
+    height: 40px;
+    width: 150px;
+    line-height: 10px;
 
     @media (max-width: 768px) {
         width: 250px;

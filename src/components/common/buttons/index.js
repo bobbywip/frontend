@@ -3,12 +3,13 @@ import styled from "styled-components"
 
 const Button = styled.button`
     border: 0;
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 0.5em 1em;
     font-size: 12pt;
     display: inline-block;
     width: 100%;
     text-align: center;
+    font-weight: 500;
 
     &:hover {
         cursor: pointer;

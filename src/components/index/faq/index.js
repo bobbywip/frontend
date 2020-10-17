@@ -20,7 +20,7 @@ Faq.defaultProps = {
 }
 
 const Container = styled.div`
-    margin: 5rem auto;
+    margin: 59px auto 68px auto;
     width: 100%;
     display: grid;
     place-items: center;

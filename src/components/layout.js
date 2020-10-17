@@ -12,9 +12,10 @@ import { Socials, WEB3SETTINGS, KNC_TOKEN_ABI } from "../config"
 
 const Container = styled.div`
     overflow-x: hidden;
-    margin: 0;
+    margin: 0 auto;
     font-family: Helvetica Neue;
     font-style: normal;
+    max-width: 2048px;
 `
 
 const INITIAL_STATE = {

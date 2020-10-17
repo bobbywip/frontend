@@ -3,9 +3,9 @@ import styled from "styled-components"
 
 const Container = styled.div`
     width: 100%;
-    display: grid;
-    grid-template-columns: minmax(150px, 90%) 1fr;
-    margin: 0;
+    display: block;
+    margin: auto auto;
+    max-width: 1238px;
     padding: 0;
 `
 const Title = styled.h2`
