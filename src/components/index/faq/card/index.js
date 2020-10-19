@@ -16,7 +16,7 @@ Card.defaultProps = {
 
 const Container = styled.div`
     flex: 1 1 325px;
-    margin: 29px 59px;
+    margin: 29px 29px;
     background: ${props => props.id === 1 ? "#FFD02A" : "#F8F8F8"};
 `
 const Question = styled.h3`
