@@ -110,7 +110,7 @@ export default function Hero() {
                         <Link to="/dashboard">Delegate my vote</Link>
                     </ButtonDelegate>
                     <ButtonReadMore>
-                        <a href="https://google.com/" target="_blank" rel="nofollow noopener">Read More</a>
+                        <a href="https://google.com/" target="_blank" rel="noreferrer noopener">Read More</a>
                     </ButtonReadMore>
                 </Buttons>
             </TaglineContainer>

@@ -58,7 +58,7 @@ export default function Announcement() {
         <Date>05/05/2020</Date>
         <Title>Today's voting topic - Kyber Community is voting a new protocol for meowing</Title>
         <ReadMore>
-            <a href="https://google.com/" target="_blank" rel="nofollow noopener">Read More</a>
+            <a href="https://google.com/" target="_blank" rel="noreferrer nofollow noopener">Read More</a>
         </ReadMore>
     </Container>
   )
