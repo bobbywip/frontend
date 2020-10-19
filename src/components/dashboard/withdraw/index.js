@@ -16,7 +16,7 @@ const Container = styled.div`
     border-radius: 16px;
     color: #000;
     padding: 2em 2em 0.25em 2em;
-    margin: 1em 1em 1em 0;
+    margin: 0.5em 1em 0.5em 0;
     flex: 0 1 200px;
 
     @media (max-width: 650px) {
