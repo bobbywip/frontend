@@ -24,7 +24,7 @@ const TEAM_CONTENT = [
     {
       id: 2,
       name: "Sasha",
-      role: "UI Designer",
+      role: "Product Designer",
       link: "https://www.linkedin.com/in/sasha-tanase-b5190583/",
       image: ImageSasha
     },
