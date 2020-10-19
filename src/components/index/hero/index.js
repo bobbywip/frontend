@@ -87,6 +87,15 @@ const ButtonReadMore = styled(SecondaryButton)`
         display: block;
         margin: 0.5em;
     }
+
+    a {
+        color: #222;
+        text-decoration: none;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
 `
 
 export default function Hero() {
@@ -100,7 +109,9 @@ export default function Hero() {
                     <ButtonDelegate>
                         <Link to="/dashboard">Delegate my vote</Link>
                     </ButtonDelegate>
-                    <ButtonReadMore>Read More</ButtonReadMore>
+                    <ButtonReadMore>
+                        <a href="https://google.com/" target="_blank" rel="nofollow noopener">Read More</a>
+                    </ButtonReadMore>
                 </Buttons>
             </TaglineContainer>
         </Container>

@@ -35,12 +35,21 @@ const Title = styled.div`
     letter-spacing: 0.1px;
     width: 55%;
 `
-const ReadMore = styled(Link)`
+const ReadMore = styled.span`
     margin: 0.5em 0;
     text-decoration: underline;
     font-size: 14px;
     font-family: Helvetica Neue;
     color: #000;
+
+    a {
+        color: #000;
+        text-decoration: none;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
 `
 
 export default function Announcement() {
@@ -48,8 +57,8 @@ export default function Announcement() {
     <Container>
         <Date>05/05/2020</Date>
         <Title>Today's voting topic - Kyber Community is voting a new protocol for meowing</Title>
-        <ReadMore to="/">
-            Read More
+        <ReadMore>
+            <a href="https://google.com/" target="_blank" rel="nofollow noopener">Read More</a>
         </ReadMore>
     </Container>
   )
