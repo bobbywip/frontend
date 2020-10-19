@@ -46,6 +46,7 @@ const SegmentContainer = styled.div`
 `
 const RewardAmount = styled.div`
     display: inline-block;
+    margin-top: -1.25rem;
     font-family: Helvetica Neue;
     font-style: normal;
     font-weight: 500;
@@ -71,7 +72,7 @@ const ClaimContainer = styled.div`
     display: inline-block;
     border-left: 1px solid #212121;
     width: 100%;
-    padding: 0 0 0 3em;
+    padding: 0 0 0 5em;
 `
 const ClaimTitle = styled.h4`
     font-size: 14px;
