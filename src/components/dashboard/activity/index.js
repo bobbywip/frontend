@@ -10,7 +10,6 @@ import Timeline from './timeline'
 
 const Container = styled.div`
     background: #FFF;
-    border: 1px solid #c5c5c5;
     border-radius: 16px;
     color: #000;
     padding: 2em;

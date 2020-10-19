@@ -10,7 +10,6 @@ const KCSP_CONTRACT_ABI = require("../../../config/web3/contracts/abis/kscp_abi.
 
 const Container = styled.div`
     height: 110px;
-    border: 1px solid #c5c5c5;
     background: #FFD02A;
     border-radius: 16px;
     color: #000;
