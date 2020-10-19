@@ -107,6 +107,11 @@ const DelegateButton = styled(SecondaryButton)`
     }
 `
 const WithdrawButton = styled(PrimaryButton)`
+    background: #212121;
+    border 1px solid #212121;
+    color: #FFF;
+    margin-top: 1rem;
+
     ${props => props.disabled &&
         `
             opacity: 0.5;
