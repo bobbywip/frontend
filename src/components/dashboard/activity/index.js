@@ -20,9 +20,9 @@ const Container = styled.div`
     @media (min-width: 1580px) {
         position: absolute;
         right: 0;
-        margin-top: -18rem;
+        margin-top: -15rem;
         width: 594px;
-        height: 437px;
+        height: 385px;
     }
 
     @media (max-width: 650px) {

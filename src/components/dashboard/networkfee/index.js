@@ -47,16 +47,22 @@ const DefaultDescription = styled.div`
 const ChartArea = styled.div`
 `
 const PeriodSelectorContainer = styled.ul`
+    margin-top: -5rem;
     list-style-type: none;
     font-size: 0.8rem;
 `
 const PeriodSelector = styled.li`
     display: inline-block;
-    padding: 0 0.5rem;
+    padding: 0.5rem;
     border: 1px solid #000;
 
-    &:nth-child(1) {
+    &:first-child {
         border-right: none;
+        border-radius: 16px 0 0 16px; 
+    }
+
+    &:nth-last-child(1) {
+        border-radius: 0 16px 16px 0; 
     }
 
     &:hover {
