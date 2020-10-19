@@ -16,7 +16,7 @@ const Container = styled.div`
     border: 1px solid #c5c5c5;
     border-radius: 16px;
     color: #000;
-    padding: 2em;
+    padding: 2em 2em 0.25em 2em;
     margin: 1em 1em 1em 0;
     flex: 0 1 200px;
 
@@ -89,6 +89,8 @@ const FullNumber = styled.div`
     color: #a9a9a9;
 `
 const DepositButton = styled(PrimaryButton)`
+    margin-top: 1rem;
+
     ${props => props.disabled &&
         `
             opacity: 0.5;
