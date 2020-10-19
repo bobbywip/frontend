@@ -10,20 +10,19 @@ import Timeline from './timeline'
 
 const Container = styled.div`
     background: #FFF;
-    border: 1px solid #c5c5c5;
     border-radius: 16px;
     color: #000;
     padding: 2em;
-    margin: 1em 1em 1em 0;
+    margin: 0.5em 1em 0.5em 0;
     flex: 1 1 500px;
     height: auto;
 
     @media (min-width: 1580px) {
         position: absolute;
         right: 0;
-        margin-top: -18rem;
+        margin-top: -15rem;
         width: 594px;
-        height: 437px;
+        height: 385px;
     }
 
     @media (max-width: 650px) {

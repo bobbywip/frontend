@@ -6,7 +6,6 @@ import Banner from "../../../static/banners/community.svg"
 
 const Container = styled.div`
     margin: 0 0 1em 0;
-    border: 1px solid #c5c5c5;
     background: #FFF;
     padding: 2em;
     border-radius: 16px;

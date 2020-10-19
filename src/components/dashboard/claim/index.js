@@ -10,12 +10,11 @@ const KCSP_CONTRACT_ABI = require("../../../config/web3/contracts/abis/kscp_abi.
 
 const Container = styled.div`
     height: 110px;
-    border: 1px solid #c5c5c5;
     background: #FFD02A;
     border-radius: 16px;
     color: #000;
     padding: 2em;
-    margin: 1em 1em 1em 0;
+    margin: 0.5em 1em 0.5em 0;
     flex: 1 1 500px;
 
     @media (max-width: 650px) {
@@ -47,6 +46,7 @@ const SegmentContainer = styled.div`
 `
 const RewardAmount = styled.div`
     display: inline-block;
+    margin-top: -1.25rem;
     font-family: Helvetica Neue;
     font-style: normal;
     font-weight: 500;
@@ -72,7 +72,7 @@ const ClaimContainer = styled.div`
     display: inline-block;
     border-left: 1px solid #212121;
     width: 100%;
-    padding: 0 0 0 3em;
+    padding: 0 0 0 5em;
 `
 const ClaimTitle = styled.h4`
     font-size: 14px;

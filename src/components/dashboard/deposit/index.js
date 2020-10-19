@@ -13,11 +13,10 @@ import TxPending from '../../common/txpending'
 
 const Container = styled.div`
     background: #FFF;
-    border: 1px solid #c5c5c5;
     border-radius: 16px;
     color: #000;
-    padding: 2em;
-    margin: 1em 1em 1em 0;
+    padding: 2em 2em 0.25em 2em;
+    margin: 0.5em 1em 0.5em 0;
     flex: 0 1 200px;
 
     @media (max-width: 650px) {
@@ -89,6 +88,8 @@ const FullNumber = styled.div`
     color: #a9a9a9;
 `
 const DepositButton = styled(PrimaryButton)`
+    margin-top: 1rem;
+
     ${props => props.disabled &&
         `
             opacity: 0.5;

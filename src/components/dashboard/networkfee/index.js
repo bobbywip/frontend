@@ -10,11 +10,10 @@ import { formatRestApiEndpoint } from '../../../utils/endpoints'
 
 const Container = styled.div`
     background: #FFF;
-    border: 1px solid #c5c5c5;
     border-radius: 16px;
     color: #000;
     padding: 2em;
-    margin: 1em 1em 1em 0;
+    margin: 0.5em 1em 0.5em 0;
     flex: 0 1 480px;
 
     @media (max-width: 650px) {
@@ -48,16 +47,22 @@ const DefaultDescription = styled.div`
 const ChartArea = styled.div`
 `
 const PeriodSelectorContainer = styled.ul`
+    margin-top: -5rem;
     list-style-type: none;
     font-size: 0.8rem;
 `
 const PeriodSelector = styled.li`
     display: inline-block;
-    padding: 0 0.5rem;
+    padding: 0.5rem;
     border: 1px solid #000;
 
-    &:nth-child(1) {
+    &:first-child {
         border-right: none;
+        border-radius: 16px 0 0 16px; 
+    }
+
+    &:nth-last-child(1) {
+        border-radius: 0 16px 16px 0; 
     }
 
     &:hover {

@@ -10,11 +10,10 @@ import LogoKyber from '../../../static/coins/kyber.png'
 
 const Container = styled.div`
     background: #FFFFFF;
-    border: 1px solid #c5c5c5;
     border-radius: 16px;
     color: #000;
     padding: 2em;
-    margin: 1em 1em 1em 0;
+    margin: 0.5em 1em 0.5em 0;
     flex: 0 1 480px;
     max-height: 228px;
 
