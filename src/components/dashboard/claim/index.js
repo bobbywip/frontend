@@ -157,7 +157,7 @@ export default function Claim() {
                 <SegmentContainer>
                     <RewardAmount>
                         {
-                            renderRewardAmount(data, loading)
+                            !web3 ? '...' : renderRewardAmount(data, loading)
                         }
                     </RewardAmount>
                     <RewardCurrency>
