@@ -6,16 +6,20 @@ import { AppStateContext } from '../../layout'
 
 const Container = styled.div`
     width: 100%;
+    margin: 0.5em 0;
 `
 const Options = styled.ul`
     list-style-type: none;
     text-align: center;
+    margin: 0;
+    padding: 0;
 `
 const Item = styled.li`
     font-size: 10pt;
     display: inline-block;
     border: 1px solid #222;
     padding: 0.5em;
+    margin: 0;
     display: none;
 
     ${props => props.selected && `

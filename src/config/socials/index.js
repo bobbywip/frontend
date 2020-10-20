@@ -10,18 +10,12 @@
  */
 
 import TwitterLogo from "./../../static/social/twitter.png"
-import LinkedinLogo from "./../../static/social/linkedin.png"
 
 const Socials = [
     {
         link: "https://twitter.com/KyberCP",
         title: "Twitter",
         image: TwitterLogo
-    },
-    {
-        link: "https://linkedin.com",
-        title: "Linkedin",
-        image: LinkedinLogo
     }
 ]
   
