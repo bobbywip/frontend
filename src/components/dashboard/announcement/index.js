@@ -55,10 +55,10 @@ const ReadMore = styled.span`
 export default function Announcement() {
   return (
     <Container>
-        <Date>05/05/2020</Date>
-        <Title>Today's voting topic - Kyber Community is voting a new protocol for meowing</Title>
+        <Date>10/20/2020</Date>
+        <Title>Kyber Community Pool is now live!</Title>
         <ReadMore>
-            <a href="https://google.com/" target="_blank" rel="nofollow noopener">Read More</a>
+            <a href="https://medium.com/@defidude/kyber-community-pool-now-live-2226bf526081" target="_blank" rel="nofollow noopener">Read More</a>
         </ReadMore>
     </Container>
   )
