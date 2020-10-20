@@ -28,10 +28,11 @@ const Socials = styled.ul`
     list-style-type: none;
     display: inline-block;
     margin: 0;
+    padding: 0;
 `
 const Item = styled.li`
     display: inline-block;
-    padding: 0 0.5em;
+    padding: 0 0.5em 0 0;
 `
 const Image = styled.img`
     min-height: 32px;
@@ -47,7 +48,8 @@ const Copyright = styled.div`
     font-size: 14px;
     line-height: 20px;
     color: #212121;
-    margin: 0.5em 0 2em 0;
+    margin: 0;
+    padding: 0;
 `
 
 export default function Footer(props) {
@@ -72,7 +74,8 @@ export default function Footer(props) {
                 {' '}
             </Links>
             <Copyright>
-                &copy; Kyber Community Pool. All rights reserved.
+                &copy; Kyber Community Pool. <br />
+                All rights reserved.
             </Copyright>
         </Container>
     )
