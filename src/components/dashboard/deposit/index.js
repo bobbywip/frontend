@@ -237,6 +237,8 @@ export default function Deposit() {
     const balance = kncBalance > 0 ? kncBalance/1e18 : null
     const maxInput = balance === null ? 0 : balance
 
+    const { web3 } = context;
+
     if(depositAmount > 0) {
         UserHasApprovedTokenSpend(depositAmount, context.address, context.networkId, context.web3).then((res) => {
             if(res) {
@@ -256,7 +258,7 @@ export default function Deposit() {
             </Title>
             <Description>
                 {
-                    balance === null 
+                    !web3 || balance === null 
                         ?
                             <DefaultDescription>
                                 You have no KNC tokens yet.

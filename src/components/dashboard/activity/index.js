@@ -92,10 +92,10 @@ const useGetUserDaoActivityData = (address, chainId) => {
 
 export default function Activity() {
     const [showAllActivity, setShowAllActivity] = useState(false)
-    const { address, chainId } = useContext(AppStateContext);
+    const { address, chainId, web3 } = useContext(AppStateContext);
     const { records, loading } = useGetUserDaoActivityData(address, chainId)
 
-    const isData = records === null || records.data === null ? false : true
+    const isData = !web3 || records === null || records.data === null ? false : true
 
     return (
         <Container>
