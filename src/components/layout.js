@@ -1,6 +1,7 @@
 import React, { Component, createContext } from "react"
 import styled from "styled-components"
 
+import GlobalFonts from './common/fontstyle';
 import Header from "./common/header"
 import Footer from  "./common/footer"
 import Banner from "./common/banner"
@@ -167,25 +168,26 @@ export default class Layout extends Component {
   render() {
     return (
       <AppStateContext.Provider value={this.state}>
-        <Banner />
-        {
-          isUnsupportedChainId(this.state.chainId)
-            ? <UnsupportedNetwork />
-            :
-              <Container>
-                  <Header 
-                    connectToWeb3={this.onConnect}
-                    disconnectWeb3={this.resetApp}
-                  />
-                  {this.props.children}
-                  <Footer 
-                    socials={Socials}
-                  />
-                  <NetworkToggle 
-                    callback={this.changeSelectedNetwork}
-                  />
-              </Container>
-          }
+        <GlobalFonts />
+          <Banner />
+          {
+            isUnsupportedChainId(this.state.chainId)
+              ? <UnsupportedNetwork />
+              :
+                <Container>
+                    <Header 
+                      connectToWeb3={this.onConnect}
+                      disconnectWeb3={this.resetApp}
+                    />
+                    {this.props.children}
+                    <Footer 
+                      socials={Socials}
+                    />
+                    <NetworkToggle 
+                      callback={this.changeSelectedNetwork}
+                    />
+                </Container>
+            }
       </AppStateContext.Provider>
     )
   }
