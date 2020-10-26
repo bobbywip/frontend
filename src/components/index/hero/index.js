@@ -76,7 +76,7 @@ const ButtonDelegate = styled(PrimaryButton)`
 `
 const ButtonReadMore = styled(SecondaryButton)`
     flex-grow: 0;
-    font-size: 16pt;
+    font-size: 15pt;
     margin: 0 1em 0 0;
     height: 40px;
     width: 150px;
