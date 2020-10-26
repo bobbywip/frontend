@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
-import HelveticaNeueFontWoff from '../../static/font/font.woff'
-import HelveticaNeueFontWoff2 from '../../static/font/font.woff2'
+import HelveticaNeueFontWoff from '../../static/font/bold.woff'
+import HelveticaNeueFontWoff2 from '../../static/font/bold.woff2'
 
 export default createGlobalStyle`
     @font-face {
