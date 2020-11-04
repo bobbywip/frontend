@@ -219,7 +219,9 @@ export default function Deposit() {
           return balance
         })
 
-        setKncBalance(balance)
+        if(balance) {
+            setKncBalance(balance)
+        }
     }
 
     useEffect(() => {
@@ -287,7 +289,7 @@ export default function Deposit() {
                         maxInput === 0 ? "disabled" : ""
                     }
                     onChange={(e) => setDepositAmount(e.target.value)}
-                    value={depositAmount > 0 ? depositAmount : null}
+                    value={depositAmount > 0 ? depositAmount : 0}
                 />
                 <MaxInputButton onClick={() => setDepositAmount(maxInput)}>
                     MAX

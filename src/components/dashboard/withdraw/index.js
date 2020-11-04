@@ -243,14 +243,19 @@ export default function Withdraw() {
             return data
         })
 
-        setStakeDetails({
-            delegatedStake: stake.delegatedStake,
-            representative: stake.representative,
-            stake: stake.stake
-        })
+        if(stake) {
+            setStakeDetails({
+                delegatedStake: stake.delegatedStake,
+                representative: stake.representative,
+                stake: stake.stake
+            })
+        }
     }
 
     useEffect(() => {
+
+        console.log(`doing stuff`)
+        return 
 
         async function doStuff() {
             await GetUserStakeDetails()
@@ -318,7 +323,7 @@ export default function Withdraw() {
                         maxInput === 0 ? "disabled" : ""
                     }
                     onChange={(e) => setWithdrawAmount(e.target.value)}
-                    value={withdrawAmount > 0 ? withdrawAmount : null}
+                    value={withdrawAmount > 0 ? withdrawAmount : 0}
                 />
                 <MaxInputButton 
                     onClick={() => setWithdrawAmount(maxInput)}

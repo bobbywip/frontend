@@ -74,7 +74,7 @@ export default function Portfolio() {
                         {
                             context => {
                                 return(
-                                    context.assets[0] && context.assets[0].eth > 0
+                                    context.assets.length > 0 && context.assets[0] && context.assets[0].eth > 0
                                         ?
                                             (context.assets[0].eth % 1 !== 0) 
                                                 ? (context.assets[0].eth).toFixed(4)
@@ -94,7 +94,7 @@ export default function Portfolio() {
                         {
                             context => {
                                 return(
-                                    context.assets[0] && context.assets[0].knc > 0
+                                    context.assets.length > 0 && context.assets[0] && context.assets[0].knc > 0
                                         ?
                                             (context.assets[0].knc % 1 !== 0) 
                                                 ? (context.assets[0].knc).toFixed(4)
