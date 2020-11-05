@@ -145,7 +145,8 @@ const MaxInputButton = styled.button`
 
 export default function Withdraw() {
     const context = useContext(AppStateContext)
-    const [stakeDetails, setStakeDetails] = useState({delegatedStake: null, representative: null, stake: null})
+    const { address } = context
+    const [stakeDetails, setStakeDetails] = useState({fetched: false, delegatedStake: null, representative: null, stake: null})
     const [withdrawAmount, setWithdrawAmount] = useState(0)
     const [isTxMining, setIsTxMining] = useState(false)
     const [txHash, setTxHash] = useState(0)
@@ -158,6 +159,8 @@ export default function Withdraw() {
             console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
             return
         }
+
+        console.log(`Calling WithdrawKncTokensFromStakeContract`)
 
         const { KNC_STAKING_ADDRESS } = getTokenAddresses(chainId)
 
@@ -179,6 +182,7 @@ export default function Withdraw() {
 
                 // Reset everything and refetch chain details
                 setStakeDetails({
+                    fetched: true,
                     delegatedStake: stakeDetails.delegatedStake,
                     representative: stakeDetails.representative,
                     stake: stakeDetails.stake - amount
@@ -198,6 +202,8 @@ export default function Withdraw() {
             console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
             return
         }
+
+        console.log(`Calling DelegateVotingPower`)
 
         const { KCSP_ADDRESS, KNC_STAKING_ADDRESS } = getTokenAddresses(chainId)
 
@@ -238,6 +244,8 @@ export default function Withdraw() {
 
         const { KNC_STAKING_ADDRESS } = getTokenAddresses(chainId)
 
+        console.log(`Calling GetUserStakeDetails`)
+
         const contract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
         const stake = await contract.methods.getLatestStakerData(address).call((error, data) => {
             return data
@@ -245,17 +253,24 @@ export default function Withdraw() {
 
         if(stake) {
             setStakeDetails({
+                fetched: true,
                 delegatedStake: stake.delegatedStake,
                 representative: stake.representative,
                 stake: stake.stake
             })
+            return
+        } else {
+            setStakeDetails({
+                fetched: true,
+                delegatedStake: 0,
+                representative: null,
+                stake: 0
+            })
         }
+
     }
 
     useEffect(() => {
-
-        console.log(`doing stuff`)
-        return 
 
         async function doStuff() {
             await GetUserStakeDetails()
@@ -264,9 +279,12 @@ export default function Withdraw() {
         doStuff()
         
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isTxMining])
+    }, [isTxMining, address])
 
-    GetUserStakeDetails()
+    if(stakeDetails.fetched === false) {
+        GetUserStakeDetails()
+    }
+
     const balance = stakeDetails && stakeDetails.stake > 0 ? stakeDetails.stake/1e18 : null
     const maxInput = balance === null ? 0 : balance
 
