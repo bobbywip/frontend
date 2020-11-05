@@ -129,7 +129,7 @@ const useGetRewardsForMember = (address, networkId, web3) => {
 
 function renderRewardAmount(data, loading)
 {
-    if(loading) {
+    if(loading || !data) {
         return '...'
     }
 
