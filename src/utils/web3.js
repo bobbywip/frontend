@@ -9,7 +9,7 @@ const providerOptions = {
       package: WalletConnectProvider,
       options: {
         infuraId: WEB3SETTINGS.INFURA.ID,
-        pollingInterval: 60000
+        pollingInterval: 900000000000000 //a long time, we don't need the block number that walletconnect fetches
       }
     }
 };
