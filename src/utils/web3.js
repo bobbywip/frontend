@@ -8,7 +8,8 @@ const providerOptions = {
     walletconnect: {
       package: WalletConnectProvider,
       options: {
-        infuraId: WEB3SETTINGS.INFURA.ID
+        infuraId: WEB3SETTINGS.INFURA.ID,
+        pollingInterval: 60000
       }
     }
 };
