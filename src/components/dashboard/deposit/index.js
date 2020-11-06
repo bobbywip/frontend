@@ -132,6 +132,8 @@ export default function Deposit() {
 
         const { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS } = getTokenAddresses(chainId)
     
+        console.log(`Calling SendKncTokensToStakeContract`)
+
         const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
         const tokenContract = await new web3.eth.Contract(KNC_TOKEN_ABI, KNC_TOKEN_ADDRESS)
 
@@ -141,6 +143,7 @@ export default function Deposit() {
         const hasUserApproved = await UserHasApprovedTokenSpend(amount)
 
         if(!hasUserApproved) {
+            console.log(`SendKncTokensToStakeContract -> User has not approved KNC`)
             const infinity = '999999999999999999999999999999999999999999'; //TODO - Make this a set amount or infinity?
             await tokenContract.methods.approve(KNC_STAKING_ADDRESS, infinity).send({from: address}, async function(err, txHash) {
                 console.log(err)
@@ -178,6 +181,8 @@ export default function Deposit() {
     const UserHasApprovedTokenSpend = async(amount) => {
         const { address, chainId, web3 } = context
         const { KNC_STAKING_ADDRESS, KNC_TOKEN_ADDRESS } = getTokenAddresses(chainId)
+
+        console.log(`Calling UserHasApprovedTokenSpend`)
     
         if(web3 === null) {
             console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
@@ -219,7 +224,9 @@ export default function Deposit() {
           return balance
         })
 
-        setKncBalance(balance)
+        if(balance) {
+            setKncBalance(balance)
+        }
     }
 
     useEffect(() => {
@@ -287,7 +294,7 @@ export default function Deposit() {
                         maxInput === 0 ? "disabled" : ""
                     }
                     onChange={(e) => setDepositAmount(e.target.value)}
-                    value={depositAmount > 0 ? depositAmount : null}
+                    value={depositAmount > 0 ? depositAmount : 0}
                 />
                 <MaxInputButton onClick={() => setDepositAmount(maxInput)}>
                     MAX
