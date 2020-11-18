@@ -60,7 +60,7 @@ const GetEpochData = (web3, chainId) => {
 
         getCurrentEpoch()
         
-    }, [web3, chainId])
+    }, [web3, chainId, currentEpoch, delegatedAmount])
 
     return {epoch: currentEpoch, delegated: delegatedAmount}
 }
