@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 
+import DelegatedAmount from '../delegatedamount'
+
 const Container = styled.div`
     width: 100%;
     display: block;
@@ -21,6 +23,7 @@ export default function Header() {
   return (
     <Container>
         <Title>Kyber Community Staking Dashboard</Title>
+        <DelegatedAmount />
     </Container>
   )
 }

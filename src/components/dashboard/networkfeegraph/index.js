@@ -87,6 +87,11 @@ const useGetStaker = chainId => {
         fetch(formatRestApiEndpoint(KNC_CONTENT.DAO_API_USER_REWARDS_URL.replace("{address}", POOL_ADDRESS), chainId), {signal: signal})
             .then(res => res.json())
             .then(res => {
+
+                res.data.sort((a, b) => {
+                    return a.epoch - b.epoch
+                })
+
                 setState({data: res.data, loading: false})
             })
 
