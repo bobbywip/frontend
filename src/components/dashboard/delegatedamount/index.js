@@ -69,6 +69,10 @@ export default function DelegatedAmount() {
     const { web3, chainId } = useContext(AppStateContext);
     const { epoch, delegated } = GetEpochData(web3, chainId)
 
+    if(!web3) {
+        return(<></>)
+    }
+
     return (
         <Container>
             Current Epoch {epoch} with {formatNumberToHuman(delegated)} KNC delegated to KCP.
