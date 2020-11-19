@@ -5,8 +5,9 @@ import { OnChainButton } from "../../common/buttons"
 import Tooltip from "../../common/tooltip"
 
 import { AppStateContext } from "../../layout"
-import { WEB3SETTINGS } from "../../../config"
-const KCSP_CONTRACT_ABI = require("../../../config/web3/contracts/abis/kscp_abi.json")
+import { toFixedDecimals } from "../../../utils/numbers"
+import { getTokenAddresses } from "../../../utils/web3"
+import { KCSP_CONTRACT_ABI, KNC_STAKING_ABI } from "../../../config"
 
 const Container = styled.div`
     height: 110px;
@@ -47,6 +48,7 @@ const SegmentContainer = styled.div`
 const RewardAmount = styled.div`
     display: inline-block;
     margin-top: -1.25rem;
+    margin-bottom: 0;
     font-family: Helvetica Neue;
     font-style: normal;
     font-weight: 500;
@@ -95,7 +97,7 @@ const RedeemButton = styled(OnChainButton)`
     display: inline-block;
 `
 
-const useGetRewardsForMember = (address, networkId, web3) => {
+const useGetRewardsForMember = (address, chainId, networkId, web3) => {
     const [state, setState] = useState({records: null, loading: true}) 
 
     useEffect(() => {
@@ -103,26 +105,22 @@ const useGetRewardsForMember = (address, networkId, web3) => {
             return
 
         async function fetchData() {
-            let KCSP_CONTRACT_ADDRESS;
-            switch(networkId) {
-                case 1:
-                default:
-                    KCSP_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.MAINNET.KCSP_ADDRESS
-                break;
-                case 3:
-                    KCSP_CONTRACT_ADDRESS = WEB3SETTINGS.CONTRACTS.CONTRACT_CONFIG.TESTNET.KCSP_ADDRESS
-                break;
-            }
+            const { KCSP_ADDRESS, KNC_STAKING_ADDRESS } = getTokenAddresses(chainId)
+
+            const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
+            const nowTimestamp = Math.ceil(new Date().getTime() / 1000)
+            // Now get the current epoch
+            const epoch = await stakeContract.methods.getEpochNumber(nowTimestamp).call();
         
-            const contract = await new web3.eth.Contract(KCSP_CONTRACT_ABI, KCSP_CONTRACT_ADDRESS)
-            await contract.methods.getAllUnclaimedRewardsDataMember(address).call((error, res) => {
-                setState({data: res, loading: false})
+            const contract = await new web3.eth.Contract(KCSP_CONTRACT_ABI, KCSP_ADDRESS)
+            await contract.methods.getAllUnclaimedRewardsDataMember(address, 0, epoch).call((error, res) => {
+                setState({data: res[0], loading: false})
             })
         }
 
         fetchData()
 
-    }, [address, networkId, web3])
+    }, [address, chainId, networkId, web3])
 
     return state
 }
@@ -137,13 +135,17 @@ function renderRewardAmount(data, loading)
         return 0
     }
 
-    // @todo - sum the total rewards and return ETH reward amount
-    return '?'
+    if(data.rewards <= 0) {
+        return 0
+    }
+
+    const rewardToFixed = toFixedDecimals(data.rewards / 1e18, 2)
+    return rewardToFixed
 }
 
 export default function Claim() {
-    const { address, networkId, web3 } = useContext(AppStateContext);
-    const { data, loading } = useGetRewardsForMember(address, networkId, web3)
+    const { address, chainId, networkId, web3 } = useContext(AppStateContext);
+    const { data, loading } = useGetRewardsForMember(address, chainId, networkId, web3)
 
     return (
         <Container>
@@ -162,6 +164,7 @@ export default function Claim() {
                     </RewardAmount>
                     <RewardCurrency>
                         ETH
+                        <Tooltip text={data && [toFixedDecimals(data.rewards/1e18, 6),"ETH"].join("")} />
                     </RewardCurrency>
                 </SegmentContainer>
                 <SegmentContainer>
