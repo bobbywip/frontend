@@ -33,6 +33,10 @@ const NavLink = styled(AnchorLink)`
   color: #212121;
   text-decoration: none;
 `
+const ExternalLink = styled.a`
+  color: #212121;
+  text-decoration: none;
+`
 const PageLink = styled(Link)`
   color: #212121;
   text-decoration: none;
@@ -65,7 +69,7 @@ export default function Navigation(props) {
                       <NavLink href="#faq">FAQ</NavLink>
                     </Item>
                     <Item>
-                      <NavLink href="#contact">Contact</NavLink>
+                      <ExternalLink href="https://discord.com/invite/D3d8B7JvdQ" rel="noopener noreferrer" target="_blank">Support</ExternalLink>
                     </Item>
                     <Item>
                       <PageLink to="/dashboard">
