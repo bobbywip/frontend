@@ -120,7 +120,7 @@ const useGetRewardsForMember = (address, chainId, networkId, web3) => {
 
         fetchData()
 
-    }, [address, networkId, web3])
+    }, [address, chainId, networkId, web3])
 
     return state
 }
