@@ -1,4 +1,4 @@
-const toFixedDecimals = (number, decimals) => {
+export const toFixedDecimals = (number, decimals) => {
     const d = decimals + 1
     const x = Math.pow(10, Number(d) + 1);
 
