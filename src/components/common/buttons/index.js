@@ -45,10 +45,10 @@ export function ActionButton(props) {
 }
 
 export function OnChainButton(props) {
-    const { className, text } = props;
+    const { className, text, onClick } = props;
 
     return (
-        <OnChainButtonContainer className={className}>
+        <OnChainButtonContainer className={className} onClick={() => onClick()}>
             {text}
         </OnChainButtonContainer>
     )
