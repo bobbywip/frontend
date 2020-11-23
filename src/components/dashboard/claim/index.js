@@ -6,8 +6,9 @@ import Tooltip from "../../common/tooltip"
 
 import { AppStateContext } from "../../layout"
 import { toFixedDecimals } from "../../../utils/numbers"
-import { getTokenAddresses } from "../../../utils/web3"
-import { KCSP_CONTRACT_ABI, KNC_STAKING_ABI } from "../../../config"
+import { getTokenAddresses, getTransactionReceiptMined } from "../../../utils/web3"
+import TxPending from '../../common/txpending'
+import { KCSP_CONTRACT_ABI, KNC_STAKING_ABI, WEB3SETTINGS } from "../../../config"
 
 const Container = styled.div`
     height: 110px;
@@ -76,29 +77,22 @@ const ClaimContainer = styled.div`
     width: 100%;
     padding: 0 0 0 5em;
 `
-const ClaimTitle = styled.h4`
-    font-size: 14px;
-    font-weight: 300;
-    display: block;
-    margin: 0;
-`
-const Input = styled.input`
-    display: inline-block;
-    margin-top: 1rem;
-    border: 1px solid #212121;
-    border-radius: 5px;
-    background: transparent;
-    padding: 0.5em;
-    margin: 0.5em 1em 0 0;
-    width: auto;
-`
 const RedeemButton = styled(OnChainButton)`
     width: auto;
     display: inline-block;
+
+    ${props => props.disabled &&
+        `
+            opacity: 0.5;
+            &:hover {
+                cursor: not-allowed;
+            }
+        `
+    }
 `
 
 const useGetRewardsForMember = (address, chainId, networkId, web3) => {
-    const [state, setState] = useState({records: null, loading: true}) 
+    const [state, setState] = useState({records: null, epoch: null, loading: true}) 
 
     useEffect(() => {
         if(address === "")
@@ -111,10 +105,12 @@ const useGetRewardsForMember = (address, chainId, networkId, web3) => {
             const nowTimestamp = Math.ceil(new Date().getTime() / 1000)
             // Now get the current epoch
             const epoch = await stakeContract.methods.getEpochNumber(nowTimestamp).call();
+            console.log(`useGetRewardsForMember - current epoch: ${epoch}`)
         
             const contract = await new web3.eth.Contract(KCSP_CONTRACT_ABI, KCSP_ADDRESS)
             await contract.methods.getAllUnclaimedRewardsDataMember(address, 0, epoch).call((error, res) => {
-                setState({data: res[0], loading: false})
+                console.log(`useGetRewardsForMember - all unclaimed: ${res[0]}`)
+                setState({data: res[0], epoch: epoch, loading: false})
             })
         }
 
@@ -128,7 +124,7 @@ const useGetRewardsForMember = (address, chainId, networkId, web3) => {
 function renderRewardAmount(data, loading)
 {
     if(loading || !data) {
-        return '...'
+        return 0
     }
 
     if(data.length === 0) {
@@ -145,7 +141,43 @@ function renderRewardAmount(data, loading)
 
 export default function Claim() {
     const { address, chainId, networkId, web3 } = useContext(AppStateContext);
+    const [isTxMining, setIsTxMining] = useState(false)
+    const [txHash, setTxHash] = useState(0)
     const { data, loading } = useGetRewardsForMember(address, chainId, networkId, web3)
+
+    async function redeemRewards() {
+        if(isTxMining || data === undefined || data.epoch === null) {
+            return
+        }
+
+        const { epoch } = data
+
+        if(epoch === null) {
+            console.log(`Epoch data not fetched yet`)
+            return
+        }
+
+        const { KCSP_ADDRESS } = getTokenAddresses(chainId)
+        const kcspContract = await new web3.eth.Contract(KCSP_CONTRACT_ABI, KCSP_ADDRESS)
+
+        // Now send the claimRewardsMembers to claim everything
+        const epochsToClaim =  Array.from({length: epoch - WEB3SETTINGS.KCP.DEPLOYED_EPOCH+1},(v,k)=>k+WEB3SETTINGS.KCP.DEPLOYED_EPOCH)
+        console.log(`Calling claimRewardsMember with params`, address, epochsToClaim)
+        await kcspContract.methods.claimRewardsMember(address, epochsToClaim).send({from: address}, async function(err, txHash) {
+            console.log(err)
+
+            if(!err) {
+                console.log(`TxHash: ${txHash}`)
+                setIsTxMining(true)
+                setTxHash(txHash)
+                const receipt = await getTransactionReceiptMined(txHash, web3)
+                console.log(receipt)
+
+                setIsTxMining(false)
+                setTxHash(false)
+            }
+        })
+    }
 
     return (
         <Container>
@@ -164,23 +196,19 @@ export default function Claim() {
                     </RewardAmount>
                     <RewardCurrency>
                         ETH
-                        <Tooltip text={data && [toFixedDecimals(data.rewards/1e18, 6),"ETH"].join("")} />
+                        {data && data.rewards > 0 && <Tooltip text={["Unclaimed:", toFixedDecimals(data.rewards/1e18, 6), "ETH"].join(" ")} />}
                     </RewardCurrency>
                 </SegmentContainer>
                 <SegmentContainer>
                     <ClaimContainer>
-                        <ClaimTitle>
-                            Redeem
-                        </ClaimTitle>
-                        <Input 
-                            placeholder="ETH amount"
-                            type="number"
-                            name="amount"
-                            autocomplete="off"
-                        />
                         <RedeemButton 
-                            text="Redeem"
+                            text="Redeem all unclaimed"
+                            onClick={() => redeemRewards()}
+                            disabled={!(data && data.rewards > 0) || isTxMining ? true : false}
                         />
+                    {
+                        isTxMining && <TxPending hash={txHash.toString()} />
+                    }
                     </ClaimContainer>
                 </SegmentContainer>
             </BodyContainer>
