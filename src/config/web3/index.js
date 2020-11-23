@@ -9,6 +9,9 @@ const WEB3SETTINGS = {
     },
     CONTRACTS: {
         CONTRACT_CONFIG
+    },
+    KCP: {
+        DEPLOYED_EPOCH: 7
     }
 }
 
