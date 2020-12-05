@@ -116,10 +116,11 @@ const MaxInputButton = styled.button`
 export default function Deposit() {
     const context = useContext(AppStateContext)
     const [depositAmount, setDepositAmount] = useState(0)
+    const [allowanceAmount, setAllowanceAmount] = useState(0)
     const [kncBalance, setKncBalance] = useState(0)
     const [isTxMining, setIsTxMining] = useState(false)
     const [txHash, setTxHash] = useState(0)
-    const [depositOrAllowAction, setDepositOrAllowAction] = useState({name: "Deposit"})
+    const [depositOrAllowAction, setDepositOrAllowAction] = useState({name: null})
 
     // Logic to handle deposting KNC into the staking pool
     const SendKncTokensToStakeContract = async(amount) => {
@@ -136,20 +137,25 @@ export default function Deposit() {
 
         const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
         const tokenContract = await new web3.eth.Contract(KNC_TOKEN_ABI, KNC_TOKEN_ADDRESS)
-
-        const amountToStake = web3.utils.toBN(amount * 1e18)
+        
+        const tokensToStake = web3.utils.toWei(amount.toString(), 'ether')
+        const amountToStake = web3.utils.toBN(tokensToStake)
         const calculatedAmountToDeposit = web3.utils.toHex(amountToStake)
-    
-        const hasUserApproved = await UserHasApprovedTokenSpend(amount)
 
-        if(!hasUserApproved) {
+        let hasUserApproved = true
+        if(allowanceAmount === 0) {
+            hasUserApproved = await UserHasApprovedTokenSpend(amount)
+        }
+
+        if(allowanceAmount === 0 || !hasUserApproved) {
             console.log(`SendKncTokensToStakeContract -> User has not approved KNC`)
-            const infinity = '999999999999999999999999999999999999999999'; //TODO - Make this a set amount or infinity?
+            const infinity = '999999999999999999999999999999999999999999';
             await tokenContract.methods.approve(KNC_STAKING_ADDRESS, infinity).send({from: address}, async function(err, txHash) {
                 console.log(err)
 
                 if(!err) {
                     console.log(`TxHash: ${txHash}`)
+                    setAllowanceAmount(infinity)
                     setIsTxMining(true)
                     setTxHash(txHash)
                     const receipt = await getTransactionReceiptMined(txHash, web3)
@@ -186,12 +192,18 @@ export default function Deposit() {
     
         if(web3 === null) {
             console.log(`no web3 object - cannot SendKncTokensToStakeContract`)
-            return
+            return false;
+        }
+
+        // We don't need an allowance if we are sending 0
+        if(amount === 0) {
+            return true;
         }
     
         const tokenContract = await new web3.eth.Contract(KNC_TOKEN_ABI, KNC_TOKEN_ADDRESS)
         // Check the allowance for transferFrom - does the stake contract have a token allowance to spend from the user address?
         const allowance = await tokenContract.methods.allowance(address, KNC_STAKING_ADDRESS).call((error, balance) => {
+            setAllowanceAmount(balance)
             return balance
         })
     
@@ -246,7 +258,7 @@ export default function Deposit() {
 
     const { web3 } = context;
 
-    if(depositAmount > 0) {
+    if(depositOrAllowAction.name === null && depositAmount > 0) {
         UserHasApprovedTokenSpend(depositAmount, context.address, context.networkId, context.web3).then((res) => {
             if(res) {
                 setDepositOrAllowAction({name: "Deposit"})
@@ -288,13 +300,12 @@ export default function Deposit() {
                     placeholder="KNC amount"
                     name="input"
                     max={maxInput}
-                    min={0}
                     autocomplete="off"
                     disabled={
                         maxInput === 0 ? "disabled" : ""
                     }
                     onChange={(e) => setDepositAmount(e.target.value)}
-                    value={depositAmount > 0 ? depositAmount : 0}
+                    value={depositAmount}
                 />
                 <MaxInputButton onClick={() => setDepositAmount(maxInput)}>
                     MAX
@@ -304,7 +315,7 @@ export default function Deposit() {
                   onClick={() => SendKncTokensToStakeContract(depositAmount, context.address, context.networkId, context.web3)}
                 >
                     {
-                        depositOrAllowAction.name
+                        depositOrAllowAction.name === null ? "Deposit" : depositOrAllowAction.name
                     }
                 </DepositButton>
                 {
