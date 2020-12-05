@@ -88,16 +88,16 @@ const useGetStaker = chainId => {
             .then(res => res.json())
             .then(res => {
 
-                res.data.sort((a, b) => {
-                    return a.epoch - b.epoch
-                })
+                if(res.data) {
+                    res.data.sort((a, b) => {
+                        return a.epoch - b.epoch
+                    })
 
-                setState({data: res.data, loading: false})
-            })
-
-        return function cleanup() {
-            abortController.abort()
-        }
+                    setState({data: res.data, loading: false})
+                } else {
+                    setState({data: [], loading: false})
+                }
+            }).catch(err => console.log)
 
     }, [chainId])
 
