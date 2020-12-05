@@ -143,11 +143,13 @@ export default function Deposit() {
         const calculatedAmountToDeposit = web3.utils.toHex(amountToStake)
 
         let hasUserApproved = true
-        if(allowanceAmount === 0) {
+        if(parseInt(allowanceAmount) === 0) {
             hasUserApproved = await UserHasApprovedTokenSpend(amount)
         }
 
-        if(allowanceAmount === 0 || !hasUserApproved) {
+        console.log(`allowanceAmount, hasUserApproved`, {allowanceAmount, hasUserApproved})
+
+        if(parseInt(allowanceAmount) === 0 || !hasUserApproved) {
             console.log(`SendKncTokensToStakeContract -> User has not approved KNC`)
             const infinity = '999999999999999999999999999999999999999999';
             await tokenContract.methods.approve(KNC_STAKING_ADDRESS, infinity).send({from: address}, async function(err, txHash) {
@@ -307,7 +309,7 @@ export default function Deposit() {
                     onChange={(e) => setDepositAmount(e.target.value)}
                     value={depositAmount}
                 />
-                <MaxInputButton onClick={() => setDepositAmount(maxInput)}>
+                <MaxInputButton onClick={() => setDepositAmount(maxInput.toFixed(7))}>
                     MAX
                 </MaxInputButton>
                 <DepositButton 
