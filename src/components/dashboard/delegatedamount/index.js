@@ -53,8 +53,7 @@ const GetEpochData = (web3, chainId) => {
 
             const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
             // Now get the current delegated amount
-            const amount = await stakeContract.methods.getDelegatedStake(KCSP_ADDRESS, epoch).call();
-            console.log(`delegated stake:`, amount)
+            const amount = await stakeContract.methods.getLatestDelegatedStake(KCSP_ADDRESS).call();
             setDelegatedAmount(amount/1e18)
         }
 
