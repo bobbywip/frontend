@@ -166,7 +166,8 @@ export default function Withdraw() {
 
         const stakeContract = await new web3.eth.Contract(KNC_STAKING_ABI, KNC_STAKING_ADDRESS)
 
-        const amountToWithdraw = web3.utils.toBN(amount * 1e18)
+        const tokensToWithdraw = web3.utils.toWei(amount.toString(), 'ether')
+        const amountToWithdraw = web3.utils.toBN(tokensToWithdraw)
         const calculatedAmountToWithdraw = web3.utils.toHex(amountToWithdraw)
 
         // Now withdraw the KNC tokens to the contract
@@ -345,7 +346,7 @@ export default function Withdraw() {
                 />
                 <MaxInputButton 
                     onClick={() => setWithdrawAmount(maxInput)}
-                    disabled={!!withdrawAmount === false || isTxMining ? true : false}
+                    disabled={!!maxInput === false || isTxMining ? true : false}
                 >
                     MAX
                 </MaxInputButton>
