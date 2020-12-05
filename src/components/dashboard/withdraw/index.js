@@ -253,6 +253,9 @@ export default function Withdraw() {
         })
 
         if(stake) {
+
+            console.log(`GetUserStakeDetails`, stake)
+
             setStakeDetails({
                 fetched: true,
                 delegatedStake: stake.delegatedStake,

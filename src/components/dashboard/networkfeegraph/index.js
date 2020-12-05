@@ -97,11 +97,7 @@ const useGetStaker = chainId => {
                 } else {
                     setState({data: [], loading: false})
                 }
-            })
-
-        return function cleanup() {
-            abortController.abort()
-        }
+            }).catch(err => console.log)
 
     }, [chainId])
 

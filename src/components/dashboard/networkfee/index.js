@@ -118,11 +118,7 @@ const useGetKncDaoData = (period, chainId) => {
                 }
 
                 setState({data: stats, loading: false})
-            })
-
-        return function cleanup() {
-            abortController.abort()
-        }
+            }).catch(err => console.log)
 
     }, [period, chainId])
 
