@@ -196,7 +196,7 @@ export default function Claim() {
                     </RewardAmount>
                     <RewardCurrency>
                         ETH
-                        {data && data.rewards > 0 && <Tooltip text={["Unclaimed:", toFixedDecimals(data.rewards/1e18, 6), "ETH"].join(" ")} />}
+                        {data && data.rewards > 0 && <Tooltip text={["Unclaimed:", (data.rewards/1e18).toString().substring(0, 10), "ETH"].join(" ")} />}
                     </RewardCurrency>
                 </SegmentContainer>
                 <SegmentContainer>
