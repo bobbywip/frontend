@@ -149,7 +149,7 @@ export default function NetworkFeeGraph() {
                         pointBorderWidth: 1,
                         pointHoverRadius: 5,
                         pointHoverBorderWidth: 2,
-                        pointRadius: 0,
+                        pointRadius: 4,
                         pointHitRadius: 10,
                         data: dataNumbers
                     }
