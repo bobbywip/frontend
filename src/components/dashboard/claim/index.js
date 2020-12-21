@@ -109,8 +109,19 @@ const useGetRewardsForMember = (address, chainId, networkId, web3) => {
         
             const contract = await new web3.eth.Contract(KCSP_CONTRACT_ABI, KCSP_ADDRESS)
             await contract.methods.getAllUnclaimedRewardsDataMember(address, 0, epoch).call((error, res) => {
-                console.log(`useGetRewardsForMember - all unclaimed: ${res[0]}`)
-                setState({data: res[0], epoch: epoch, loading: false})
+                console.log(`useGetRewardsForMember - all unclaimed`, res)
+
+                // Get the data we need
+                // Rewards are always in 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE (ETH)
+                const rewards = {"eth": [], "epochs": []}
+                if(res.length) {
+                    res.forEach((data) => {
+                        rewards.epochs.push(data.epoch)
+                        rewards.eth.push(data.rewards)
+                    })
+                }
+
+                setState({data: rewards, epoch: epoch, loading: false})
             })
         }
 
@@ -131,11 +142,11 @@ function renderRewardAmount(data, loading)
         return 0
     }
 
-    if(data.rewards <= 0) {
+    if(data.eth.length <= 0) {
         return 0
     }
 
-    const rewardToFixed = toFixedDecimals(data.rewards / 1e18, 2)
+    const rewardToFixed = toFixedDecimals(data.eth.reduce((a, b) => parseInt(a) + parseInt(b)) / 1e18, 2)
     return rewardToFixed
 }
 
@@ -196,7 +207,7 @@ export default function Claim() {
                     </RewardAmount>
                     <RewardCurrency>
                         ETH
-                        {data && data.rewards > 0 && <Tooltip text={["Unclaimed:", (data.rewards/1e18).toString().substring(0, 10), "ETH"].join(" ")} />}
+                        {data && data.eth.length > 0 && <Tooltip text={["Unclaimed:", (data.eth.reduce((a, b) => parseInt(a) + parseInt(b), 0)/1e18).toString().substring(0, 10), "ETH"].join(" ")} />}
                     </RewardCurrency>
                 </SegmentContainer>
                 <SegmentContainer>
@@ -204,7 +215,7 @@ export default function Claim() {
                         <RedeemButton 
                             text="Redeem all unclaimed"
                             onClick={() => redeemRewards()}
-                            disabled={!(data && data.rewards > 0) || isTxMining ? true : false}
+                            disabled={!(data && data.eth.length > 0) || isTxMining ? true : false}
                         />
                     {
                         isTxMining && <TxPending hash={txHash.toString()} />
