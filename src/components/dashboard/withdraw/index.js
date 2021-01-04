@@ -149,6 +149,7 @@ export default function Withdraw() {
     const [stakeDetails, setStakeDetails] = useState({fetched: false, delegatedStake: null, representative: null, stake: null})
     const [withdrawAmount, setWithdrawAmount] = useState(0)
     const [isTxMining, setIsTxMining] = useState(false)
+    const [txType, setTxType] = useState(null)
     const [txHash, setTxHash] = useState(0)
 
     // Logic to handle withdrawing KNC from the staking pool
@@ -177,6 +178,7 @@ export default function Withdraw() {
             if(!err) {
                 console.log(`TxHash: ${txHash}`)
                 setIsTxMining(true)
+                setTxType("withdraw")
                 setTxHash(txHash)
                 const receipt = await getTransactionReceiptMined(txHash, web3)
                 console.log(receipt)
@@ -190,6 +192,7 @@ export default function Withdraw() {
                 })
                 setWithdrawAmount(0)
                 setIsTxMining(false)
+                setTxType(null)
                 setTxHash(false)
             }
         })
@@ -217,6 +220,7 @@ export default function Withdraw() {
             if(!err) {
                 console.log(`TxHash: ${txHash}`)
                 setIsTxMining(true)
+                setTxType("delegate")
                 setTxHash(txHash)
                 const receipt = await getTransactionReceiptMined(txHash, web3)
                 console.log(receipt)
@@ -229,6 +233,7 @@ export default function Withdraw() {
                 })
                 setWithdrawAmount(0)
                 setIsTxMining(false)
+                setTxType(null)
                 setTxHash(false)
             }
         })
@@ -358,7 +363,7 @@ export default function Withdraw() {
                   onClick={() => WithdrawKncTokensFromStakeContract(withdrawAmount)}
                 >
                     {
-                        isTxMining ? `Withdrawing` : `Withdraw`
+                        isTxMining && txType === "withdraw" ? `Withdrawing` : `Withdraw`
                     }
                 </WithdrawButton>
                 {
