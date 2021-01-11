@@ -154,26 +154,25 @@ export default function Claim() {
     const { address, chainId, networkId, web3 } = useContext(AppStateContext);
     const [isTxMining, setIsTxMining] = useState(false)
     const [txHash, setTxHash] = useState(0)
-    const { data, loading } = useGetRewardsForMember(address, chainId, networkId, web3)
+    const { data, epoch, loading } = useGetRewardsForMember(address, chainId, networkId, web3)
 
     async function redeemRewards() {
-        if(isTxMining || data === undefined || data.epoch === null) {
-            return
+        if(isTxMining || data === undefined || epoch === null) {
+            return;
         }
-
-        const { epoch } = data
 
         if(epoch === null) {
             console.log(`Epoch data not fetched yet`)
-            return
+            return;
         }
 
         const { KCSP_ADDRESS } = getTokenAddresses(chainId)
         const kcspContract = await new web3.eth.Contract(KCSP_CONTRACT_ABI, KCSP_ADDRESS)
 
         // Now send the claimRewardsMembers to claim everything
-        const epochsToClaim =  Array.from({length: epoch - WEB3SETTINGS.KCP.DEPLOYED_EPOCH+1},(v,k)=>k+WEB3SETTINGS.KCP.DEPLOYED_EPOCH)
-        console.log(`Calling claimRewardsMember with params`, address, epochsToClaim)
+        const startEpochClaimPeriod = data.epochs.length > 0 ? parseInt(data.epochs.sort()[0]) : WEB3SETTINGS.KCP.DEPLOYED_EPOCH;
+        const epochsToClaim =  Array.from({length: epoch - startEpochClaimPeriod+1},(v,k)=>k+startEpochClaimPeriod)
+        console.log(`Calling claimRewardsMember with params`, address, epoch, epochsToClaim)
         await kcspContract.methods.claimRewardsMember(address, epochsToClaim).send({from: address}, async function(err, txHash) {
             console.log(err)
 
