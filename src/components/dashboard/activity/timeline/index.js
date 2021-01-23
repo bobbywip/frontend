@@ -142,14 +142,13 @@ export default function Timeline(props) {
                         }
                     }
 
-
                     return(
                         <Row key={activity.tx_hash}>
                             <Part>
                                 <Icon src={iconSrc} title={type} alt={type} />
                             </Part>
                             <Part>
-                                {description.replace("{amount}", formattedValue.toFixed(2))}
+                                {description.replace("{amount}", formattedValue)}
                             </Part>
                             <Part>
                                 <DateTimestamp>
