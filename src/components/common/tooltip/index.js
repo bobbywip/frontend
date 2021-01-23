@@ -10,9 +10,11 @@ const Container = styled.div`
     --scale: 0;
     --arrow-size: 10px;
 
+    font-size: 10pt;
     border-radius: 50%;
-    border: 1px solid #222;
-    background: #222;
+    border: 1px solid ${props => props.styling && props.styling.bg ? props.styling.bg : `#222`};
+    background: ${props => props.styling && props.styling.bg ? props.styling.bg : `#222`};
+    opacity: ${props => props.styling && props.styling.opacity ? props.styling.opacity : 1};
     height: 15px;
     width: 15px;
     display: inline-block;
@@ -68,11 +70,15 @@ const Container = styled.div`
 `
 
 export default function Tooltip(props) {
-    const { text } = props
+    const { text, icon, options } = props
 
     return(
-        <Container data-tooltip={text}>
-            ?
+        <Container styling={options} data-tooltip={text}>
+            {
+                !icon 
+                    ? `?` 
+                    : icon
+            }
         </Container>
     )
 }

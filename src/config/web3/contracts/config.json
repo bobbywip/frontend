@@ -13,6 +13,10 @@
             "STAKING": {
                 "ADDRESS": "0x9A73c6217cd595bc449bA6fEF6efF53f29014f42",
                 "ABI": "knc_staking_abi.json"
+            },
+            "DAO": {
+                "ADDRESS": "0x2Be7dC494362e4FCa2c228522047663B17aE17F9",
+                "ABI": "knc_dao_abi.json"
             }
         }
     },
@@ -30,6 +34,10 @@
             "STAKING": {
                 "ADDRESS": "0xECf0bdB7B3F349AbfD68C3563678124c5e8aaea3",
                 "ABI": "knc_staking_abi.json"
+            },
+            "DAO": {
+                "ADDRESS": "0x49bdd8854481005bba4acebabf6e06cd5f6312e9",
+                "ABI": "knc_dao_abi.json"
             }
         }
     }
