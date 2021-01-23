@@ -15,7 +15,7 @@
                 "ABI": "knc_staking_abi.json"
             },
             "DAO": {
-                "ADDRESS": "",
+                "ADDRESS": "0x2Be7dC494362e4FCa2c228522047663B17aE17F9",
                 "ABI": "knc_dao_abi.json"
             }
         }
