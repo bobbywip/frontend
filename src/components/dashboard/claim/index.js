@@ -40,7 +40,7 @@ const Title = styled.div`
 const BodyContainer = styled.div`
     margin: 0 1em;
     display: grid;
-    grid-template-columns: minmax(150px, 25%) 1fr;
+    grid-template-columns: minmax(300px, 25%) 1fr;
     height: 90px;
 `
 const SegmentContainer = styled.div`
@@ -53,7 +53,7 @@ const RewardAmount = styled.div`
     font-family: Helvetica Neue;
     font-style: normal;
     font-weight: 500;
-    font-size: 72px;
+    font-size: 55px;
     line-height: 88px;
     text-align: right;
     letter-spacing: 0.1px;
@@ -74,8 +74,8 @@ const RewardCurrency = styled.div`
 const ClaimContainer = styled.div`
     display: inline-block;
     border-left: 1px solid #212121;
-    width: 100%;
-    padding: 0 0 0 5em;
+    width: 90%;
+    padding: 0 0 0 3em;
 `
 const RedeemButton = styled(OnChainButton)`
     width: auto;
@@ -146,7 +146,7 @@ function renderRewardAmount(data, loading)
         return 0
     }
 
-    const rewardToFixed = toFixedDecimals(data.eth.reduce((a, b) => parseInt(a) + parseInt(b)) / 1e18, 2)
+    const rewardToFixed = toFixedDecimals(data.eth.reduce((a, b) => parseInt(a) + parseInt(b)) / 1e18, 5)
     return rewardToFixed
 }
 
