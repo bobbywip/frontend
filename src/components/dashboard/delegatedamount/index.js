@@ -13,11 +13,18 @@ const Container = styled.div`
 const EpochCampaignsContainer = styled.div`
     display: inline-block;
 `
+const TimeLeftOnEpochContainer = styled.div`
+    font-size: 8pt;
+    display: inline-block;
+`
+
+const FIRST_EPOCH_START_TIMESTAMP = 1594710427;
 
 const GetEpochData = (web3, chainId) => {
     const [currentEpoch, setCurrentEpoch] = useState(null) 
     const [delegatedAmount, setDelegatedAmount] = useState(null) 
     const [epochCampaigns, setEpochCampaigns] = useState({})
+    const [epochInSeconds, setEpochInSeconds] = useState(0)
 
     useEffect(() => {
         
@@ -40,6 +47,10 @@ const GetEpochData = (web3, chainId) => {
             // Now get the current epoch
             const epoch = await stakeContract.methods.getEpochNumber(nowTimestamp).call();
             setCurrentEpoch(epoch)
+
+            // Get the epoch time in seconds
+            const epochInSeconds = await stakeContract.methods.epochPeriodInSeconds().call();
+            setEpochInSeconds(epochInSeconds);
 
             await getDelegatedAmount(epoch);
             await getVotedOption(epoch);
@@ -85,7 +96,7 @@ const GetEpochData = (web3, chainId) => {
         
     }, [web3, chainId, currentEpoch, delegatedAmount])
 
-    return {epoch: currentEpoch, delegated: delegatedAmount, campaigns: epochCampaigns}
+    return {epoch: currentEpoch, delegated: delegatedAmount, campaigns: epochCampaigns, epoch_lifespan_seconds: epochInSeconds}
 }
 
 const RenderCampaignVotes = (args) => {
@@ -116,9 +127,41 @@ const RenderCampaignVotes = (args) => {
     </>)
 }
 
+const RenderEpochEndCountdown = (currentEpoch, epochLifespanSeconds) => {
+    const endTimestamp = (FIRST_EPOCH_START_TIMESTAMP + (currentEpoch * epochLifespanSeconds)); //seconds
+
+    let timestampDiff = endTimestamp - Math.floor(new Date().valueOf()/1000.0);
+
+    const daysDifference = Math.floor(timestampDiff/60/60/24);
+    timestampDiff -= daysDifference*60*60*24
+    const hoursDifference = Math.floor(timestampDiff/60/60);
+    timestampDiff -= hoursDifference*60*60
+    const minutesDifference = Math.floor(timestampDiff/60);
+    timestampDiff -= minutesDifference*60
+
+    const timeLeft = `${daysDifference > 0 ? [daysDifference,'days'].join(" ") : ""}
+    ${hoursDifference > 0 ? [hoursDifference,'h'].join("") : ""}${' '}
+    ${minutesDifference > 0 ? [minutesDifference,'m'].join("") : ""}${' '}
+    left`;
+
+    return(<TimeLeftOnEpochContainer>
+        <Tooltip 
+            key={`timeLeftOnEpoch`} 
+            text={`Time until epoch ends`} 
+            icon={`🕒`}
+            options={
+                {
+                    bg: 'transparent'
+                }
+            }
+        />
+        {timeLeft}
+    </TimeLeftOnEpochContainer>)
+}
+
 export default function DelegatedAmount() {
     const { web3, chainId } = useContext(AppStateContext);
-    const { epoch, delegated, campaigns } = GetEpochData(web3, chainId)
+    const { epoch, delegated, campaigns, epoch_lifespan_seconds } = GetEpochData(web3, chainId)
 
     if(!web3) {
         return(<></>)
@@ -127,6 +170,7 @@ export default function DelegatedAmount() {
     return (
         <Container>
             Current Epoch {epoch} with {formatNumberToHuman(delegated)} KNC delegated to KCP.
+            {RenderEpochEndCountdown(epoch, epoch_lifespan_seconds)}
             <EpochCampaignsContainer>
                 {
                     campaigns.length && <RenderCampaignVotes campaigns={campaigns} />
