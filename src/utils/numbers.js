@@ -4,10 +4,6 @@ export const toFixedDecimals = (number, decimals) => {
 
     const formattedNumber = ((Number(number) + (1 / x)).toFixed(d)).slice(0, -1)
 
-    if(formattedNumber.slice(-1) === "0") {
-        return formattedNumber.split('.')[0]
-    }
-
     return formattedNumber
 }
 
