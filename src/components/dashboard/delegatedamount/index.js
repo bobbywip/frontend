@@ -173,7 +173,7 @@ export default function DelegatedAmount() {
             {RenderEpochEndCountdown(epoch, epoch_lifespan_seconds)}
             <EpochCampaignsContainer>
                 {
-                    campaigns.length && <RenderCampaignVotes campaigns={campaigns} />
+                    campaigns.length > 0 && <RenderCampaignVotes campaigns={campaigns} />
                 }
             </EpochCampaignsContainer>
         </Container>
