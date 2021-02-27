@@ -53,7 +53,8 @@ You can add/remove entries - the frontend will render as many entries there are 
 
 #### Update Infura ID
 
-* Open file `./src/config/web3/index.js` and change the value with key `INFURA.ID`
+* Go into your Heroku settings for the [node-proxy](https://github.com/kyber-community-staking-protocol/node-proxy)
+* Change the node-proxy endpoint in `./src/config/web3/index.js`
 
 #### Update Delegation Address (KCSP contract) (& other contract addresses)
 

@@ -8,8 +8,10 @@ const providerOptions = {
     walletconnect: {
       package: WalletConnectProvider,
       options: {
-        infuraId: WEB3SETTINGS.INFURA.ID,
-        pollingInterval: 900000000000000 //a long time, we don't need the block number that walletconnect fetches
+        pollingInterval: 900000000000000, //a long time, we don't need the block number that walletconnect fetches
+        rpc: {
+          1: WEB3SETTINGS.RPC_PROXY
+        }
       }
     }
 };

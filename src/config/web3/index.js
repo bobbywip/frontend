@@ -5,9 +5,7 @@ const KNC_DAO_ABI = require('./contracts/abis/knc_dao_abi.json')
 const CONTRACT_CONFIG = require('./contracts/config.json')
 
 const WEB3SETTINGS = {
-    INFURA: {
-        ID: "27e3068734924aa8801ac58cd8240715"
-    },
+    RPC_PROXY: "https://kybercommunitypool-app.herokuapp.com/",
     CONTRACTS: {
         CONTRACT_CONFIG
     },
