@@ -7,7 +7,7 @@
       "network": "mainnet",
       "networkId": 1,
       "nativeCurrency": {"name":"Ether","symbol":"ETH","decimals":18},
-      "rpc": ["https://mainnet.infura.io/v3/${INFURA_API_KEY}","wss://mainnet.infura.io/ws/v3/${INFURA_API_KEY}","https://api.mycryptoapi.com/eth","https://cloudflare-eth.com"],
+      "rpc": ["{RPC_PROXY}"],
       "faucets": [],
       "infoURL": "https://ethereum.org"
     },
@@ -391,7 +391,7 @@
       "network": "ropsten",
       "networkId": 3,
       "nativeCurrency": {"name":"Ropsten Ether","symbol":"ROP","decimals":18},
-      "rpc": ["https://ropsten.infura.io/v3/${INFURA_API_KEY}","wss://ropsten.infura.io/ws/v3/${INFURA_API_KEY}"],
+      "rpc": ["{RPC_PROXY}?network=ropsten"],
       "faucets": ["https://faucet.ropsten.be?${ADDRESS}"],
       "infoURL": "https://github.com/ethereum/ropsten"
     },
@@ -487,7 +487,7 @@
       "network": "rinkeby",
       "networkId": 4,
       "nativeCurrency": {"name":"Rinkeby Ether","symbol":"RIN","decimals":18},
-      "rpc": ["https://rinkeby.infura.io/v3/${INFURA_API_KEY}","wss://rinkeby.infura.io/ws/v3/${INFURA_API_KEY}"],
+      "rpc": ["{RPC_PROXY}?network=rinkeby"],
       "faucets": ["https://faucet.rinkeby.io"],
       "infoURL": "https://www.rinkeby.io"
     },
@@ -499,7 +499,7 @@
       "network": "kovan",
       "networkId": 42,
       "nativeCurrency": {"name":"Kovan Ether","symbol":"KOV","decimals":18},
-      "rpc": ["https://kovan.poa.network","http://kovan.poa.network:8545","https://kovan.infura.io/v3/${INFURA_API_KEY}","wss://kovan.infura.io/ws/v3/${INFURA_API_KEY}","ws://kovan.poa.network:8546"],
+      "rpc": ["https://kovan.poa.network","http://kovan.poa.network:8545","{RPC_PROXY}?network=kovan","ws://kovan.poa.network:8546"],
       "faucets": ["https://faucet.kovan.network","https://gitter.im/kovan-testnet/faucet"],
       "infoURL": "https://kovan-testnet.github.io/website"
     },
