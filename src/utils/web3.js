@@ -1,6 +1,7 @@
 import Web3 from "web3"
 import Web3Modal from "web3modal"
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import MewConnectProvider from "@myetherwallet/mewconnect-web-client"; 
 
 import { WEB3SETTINGS } from "../config"
 
@@ -12,6 +13,12 @@ const providerOptions = {
         rpc: {
           1: WEB3SETTINGS.RPC_PROXY
         }
+      }
+    },
+    mewconnect: {
+      package: MewConnectProvider,
+      options: {
+        rpcUrl: WEB3SETTINGS.RPC_PROXY
       }
     }
 };

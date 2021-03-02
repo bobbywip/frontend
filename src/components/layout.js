@@ -87,7 +87,7 @@ export default class Layout extends Component {
   };
 
   subscribeProvider = async (provider) => {
-    if (!provider.on) {
+    if ((!provider) || (provider && !provider.on)) {
       return;
     }
 
