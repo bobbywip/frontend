@@ -31,7 +31,7 @@ export default function Header() {
   return (
     <Container>
         <InfoBar>
-          ⚠️ We are currently facing node issues meaning some values will not be reflected correctly on this UI.{' '}
+          <span role="emoji">⚠️</span> We are currently facing node issues meaning some values will not be reflected correctly on this UI.{' '}
           Please see the "Troubleshooting" section in <a href="https://mandelliant.medium.com/how-to-stake-knc-and-earn-rewards-with-the-kyber-community-pool-fa9142f2ca8a" target="_blank" rel="noreferrer noopener">this guide</a>.
         </InfoBar>
         <Title>Kyber Community Staking Dashboard</Title>
