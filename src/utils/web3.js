@@ -74,7 +74,7 @@ async function getTransactionReceiptMined(txHash, web3, interval) {
           } else if (receipt == null) {
               setTimeout(
                   () => transactionReceiptAsync(resolve, reject),
-                  interval ? interval : 500);
+                  interval ? interval : 2000);
           } else {
               resolve(receipt);
           }
