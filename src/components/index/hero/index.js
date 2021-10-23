@@ -79,7 +79,7 @@ const ButtonReadMore = styled(SecondaryButton)`
     font-size: 15pt;
     margin: 0 1em 0 0;
     height: 40px;
-    width: 150px;
+    width: 190px;
     line-height: 10px;
 
     @media (max-width: 768px) {
@@ -107,10 +107,10 @@ export default function Hero() {
                 </Tagline>
                 <Buttons>
                     <ButtonDelegate>
-                        <Link to="/dashboard">Delegate my vote</Link>
+                        <Link to="/dashboard">Withdraw funds</Link>
                     </ButtonDelegate>
                     <ButtonReadMore>
-                        <a href="https://medium.com/@defidude/kyber-community-pool-now-live-2226bf526081" target="_blank" rel="noopener noreferrer">Read More</a>
+                        <a href="https://medium.com/@defidude/kyber-community-pool-now-live-2226bf526081" target="_blank" rel="noopener noreferrer">Sunsetting KCP</a>
                     </ButtonReadMore>
                 </Buttons>
             </TaglineContainer>

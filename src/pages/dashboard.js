@@ -5,7 +5,7 @@ import Layout from "../components/layout"
 
 import Header from "../components/dashboard/header"
 import Announcement from "../components/dashboard/announcement"
-import Deposit from "../components/dashboard/deposit"
+// import Deposit from "../components/dashboard/deposit"
 import Withdraw from "../components/dashboard/withdraw"
 import NetworkGraph from "../components/dashboard/networkfeegraph"
 import NetworkFee from "../components/dashboard/networkfee"
@@ -45,7 +45,7 @@ const DashboardContents = () => {
         <PillContainer>
           <Announcement />
           <ActionContainer>
-            <Deposit />
+            {/* <Deposit /> */}
             <Withdraw />
             <NetworkGraph />
           </ActionContainer>

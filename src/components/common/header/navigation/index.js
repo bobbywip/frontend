@@ -4,7 +4,8 @@ import AnchorLink from 'react-anchor-link-smooth-scroll'
 import styled from "styled-components"
 import { AppStateContext } from "../../../layout"
 
-import { PrimaryButton, ActionButton } from "../../buttons"
+// import { PrimaryButton, ActionButton } from "../../buttons"
+import { ActionButton } from "../../buttons"
 import MyAddress from "./address"
 
 const List = styled.ul`
@@ -16,10 +17,10 @@ const Item = styled.li`
   padding: 0 0.5em;
   font-weight: 800;
 
-  &:last-child {
-      position: absolute;
-      right: 2em;
-  }
+  // &:last-child {
+  //     position: absolute;
+  //     right: 2em;
+  // }
 `
 const Title = styled(Link)`
   color: #0065F2;
@@ -37,10 +38,10 @@ const ExternalLink = styled.a`
   color: #212121;
   text-decoration: none;
 `
-const PageLink = styled(Link)`
-  color: #212121;
-  text-decoration: none;
-`
+// const PageLink = styled(Link)`
+//   color: #212121;
+//   text-decoration: none;
+// `
 
 export default function Navigation(props) {
     const location = useLocation();
@@ -56,7 +57,7 @@ export default function Navigation(props) {
               isHomepage
                 &&
                   <>
-                    <Item>
+                    {/* <Item>
                       <NavLink href="#about">About</NavLink>
                     </Item>
                     <Item>
@@ -64,18 +65,18 @@ export default function Navigation(props) {
                     </Item>
                     <Item>
                       <NavLink href="#team">Team</NavLink>
-                    </Item>
+                    </Item> */}
                     <Item>
                       <NavLink href="#faq">FAQ</NavLink>
                     </Item>
                     <Item>
                       <ExternalLink href="https://discord.com/invite/D3d8B7JvdQ" rel="noopener noreferrer" target="_blank">Support</ExternalLink>
                     </Item>
-                    <Item>
+                    {/* <Item>
                       <PageLink to="/dashboard">
                         <PrimaryButton style={{width: '106px'}}>Deposit</PrimaryButton>
                       </PageLink>
-                    </Item>
+                    </Item> */}
                   </>
               }
 
