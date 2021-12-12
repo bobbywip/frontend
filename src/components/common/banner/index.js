@@ -15,7 +15,7 @@ const Container = styled.div`
 const Banner = () => {
     return(
         <Container>
-            <span role="img" aria-label="Warning">⚠️</span> <a href="https://github.com/protofire/kyber-pool-master-proxy-contract/blob/master/audit/v1.0.0-KyberPoolSecurity.pdf" target="_blank" rel="noreferrer noopener">Sunsetting Kyber Community Pool (KCP)</a> <span role="img" aria-label="Warning">⚠️</span>
+            <span role="img" aria-label="Warning">⚠️</span> <a href="https://defidude.medium.com/sunsetting-the-kyber-community-pool-kcp-5654636334a8" target="_blank" rel="noreferrer noopener">Sunsetting the Kyber Community Pool (KCP)</a> <span role="img" aria-label="Warning">⚠️</span>
         </Container>
     )
 }

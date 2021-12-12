@@ -110,7 +110,7 @@ export default function Hero() {
                         <Link to="/dashboard">Withdraw funds</Link>
                     </ButtonDelegate>
                     <ButtonReadMore>
-                        <a href="https://medium.com/@defidude/kyber-community-pool-now-live-2226bf526081" target="_blank" rel="noopener noreferrer">Sunsetting KCP</a>
+                        <a href="https://defidude.medium.com/sunsetting-the-kyber-community-pool-kcp-5654636334a8" target="_blank" rel="noopener noreferrer">Sunsetting KCP</a>
                     </ButtonReadMore>
                 </Buttons>
             </TaglineContainer>
