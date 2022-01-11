@@ -1,17 +1,17 @@
 {
     "TESTNET": {
         "KCSP_ABI": "kscp_abi.json",
-        "KCSP_ADDRESS": "0x384931890dceef4e112d64714f43f8eaa4f8d0e9",
-        "CHAIN_ID": 3,
-        "CHAIN_NAME": "TESTNET (ROPSTEN)",
+        "KCSP_ADDRESS": "0x6B2d3f1CC12C324B48376151bD9d1080C07c8955",
+        "CHAIN_ID": 97,
+        "CHAIN_NAME": "TESTNET",
         "KNC": {
             "TOKEN": {
-                "ADDRESS": "0x7b2810576aa1cce68f2b118cef1f36467c648f92",
+                "ADDRESS": "0x6B2d3f1CC12C324B48376151bD9d1080C07c8955",
                 "DECIMALS": 18,
                 "ABI": "knc_token_abi.json"
             },
             "STAKING": {
-                "ADDRESS": "0x9A73c6217cd595bc449bA6fEF6efF53f29014f42",
+                "ADDRESS": "0x782F3E8E66B0274500bD0b41Dc339755138E3461",
                 "ABI": "knc_staking_abi.json"
             },
             "DAO": {
@@ -22,17 +22,17 @@
     },
     "MAINNET": {
         "KCSP_ABI": "kscp_abi.json",
-        "KCSP_ADDRESS": "0xff895dbc075379af849dfd8a5c42ba4e920b04a2",
-        "CHAIN_ID": 1,
+        "KCSP_ADDRESS": "0x6B2d3f1CC12C324B48376151bD9d1080C07c8955",
+        "CHAIN_ID": 97,
         "CHAIN_NAME": "MAINNET",
         "KNC": {
             "TOKEN": {
-                "ADDRESS": "0xdd974d5c2e2928dea5f71b9825b8b646686bd200",
+                "ADDRESS": "0x6B2d3f1CC12C324B48376151bD9d1080C07c8955",
                 "DECIMALS": 18,
                 "ABI": "knc_token_abi.json"
             },
             "STAKING": {
-                "ADDRESS": "0xECf0bdB7B3F349AbfD68C3563678124c5e8aaea3",
+                "ADDRESS": "0x782F3E8E66B0274500bD0b41Dc339755138E3461",
                 "ABI": "knc_staking_abi.json"
             },
             "DAO": {
